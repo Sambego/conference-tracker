@@ -53,7 +53,7 @@ function getWebsite(event) {
 }
 
 function addConferenceToSheet(c, t, s, isMeetup) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vx7pmm/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/v7ov4y/";
   const data = {
     conference: c.name,
     start: helpers.convertTimestampToMMDYY(c.startDate),
@@ -123,7 +123,7 @@ function createSLK(c, t, s) {
       console.log("Sent to Cloudinary");
       const cloudinaryURL = result.secure_url;
 
-      const url = "https://hooks.zapier.com/hooks/catch/5126522/vxvv1v/";
+      const url = "https://hooks.zapier.com/hooks/catch/5126522/v7y6iy/";
 
       const data = {
         name: c.name,
@@ -148,7 +148,7 @@ function createSLK(c, t, s) {
 }
 
 function sendSlackMessage(c, t, s, isMeetup) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vnx423/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/v7o9we/";
 
   const data = {
     conference: isMeetup ? `Meetup ${c.name}` : c.name,
@@ -183,7 +183,7 @@ function addToEvangelistCalendar(c, t, s) {
 }
 
 function addToTrello(c, t, s) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vxj0p1/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/vnvpe0/";
 
   const data = {
     conference: c.name,
@@ -202,7 +202,7 @@ function addToTrello(c, t, s) {
 }
 
 function addToCommunityForums(c, t, s) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vney7v/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/v7yw5a/";
 
   const data = {
     communityUsername: s.communityUsername,
@@ -220,7 +220,7 @@ function addToCommunityForums(c, t, s) {
 }
 
 function addToMarketingRoadmap(c, t, s, isMeetup) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vnefwg/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/v7ypro/";
 
   const data = {
     start: helpers.convertTimestampToMMDYY(c.startDate),
@@ -240,7 +240,7 @@ function addToMarketingRoadmap(c, t, s, isMeetup) {
 }
 
 function addMeetupToTrello(m, t, s) {
-  const url = "https://hooks.zapier.com/hooks/catch/5126522/vxvwmh/";
+  const url = "https://hooks.zapier.com/hooks/catch/5126522/v7ybv5/";
 
   const data = {
     conference: `Meetup ${m.name}`,
@@ -258,7 +258,7 @@ function addMeetupToTrello(m, t, s) {
 }
 
 function addToDevelopersReachedSheet(r) {
-  let url = "https://hooks.zapier.com/hooks/catch/5126522/vncu8q/";
+  let url = "https://hooks.zapier.com/hooks/catch/5126522/v7ouhu/";
 
   const data = {
     eventName: r.eventName,

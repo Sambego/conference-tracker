@@ -11,16 +11,16 @@ if (process.env.NODE_ENV === "prod") {
 }
 
 const URL = {
-  addConferenceToSheet: "https://hooks.zapier.com/hooks/catch/5126522/vx7pmm/",
-  createSLK: "https://hooks.zapier.com/hooks/catch/5126522/vxvv1v/",
-  sendSlackMessage: "https://hooks.zapier.com/hooks/catch/5126522/vnx423/",
+  addConferenceToSheet: "https://hooks.zapier.com/hooks/catch/5126522/v7ov4y/",
+  createSLK: "https://hooks.zapier.com/hooks/catch/5126522/v7y6iy/",
+  sendSlackMessage: "https://hooks.zapier.com/hooks/catch/5126522/v7o9we/",
   addToEvangelistCalendar:
     "https://hooks.zapier.com/hooks/catch/5126522/vnp60u/",
-  addToTrello: "https://hooks.zapier.com/hooks/catch/5126522/vxj0p1/",
-  addMeetupToTrello: "https://hooks.zapier.com/hooks/catch/5126522/vxvwmh/",
-  addToCommunityForums: "https://hooks.zapier.com/hooks/catch/5126522/vney7v/",
-  addToMarketingRoadmap: "https://hooks.zapier.com/hooks/catch/5126522/vnefwg/",
-  addToDevelopersReached: "https://hooks.zapier.com/hooks/catch/5126522/vncu8q/"
+  addToTrello: "https://hooks.zapier.com/hooks/catch/5126522/vnvpe0/",
+  addMeetupToTrello: "https://hooks.zapier.com/hooks/catch/5126522/v7ybv5/",
+  addToCommunityForums: "https://hooks.zapier.com/hooks/catch/5126522/v7yw5a/",
+  addToMarketingRoadmap: "https://hooks.zapier.com/hooks/catch/5126522/v7ypro/",
+  addToDevelopersReached: "https://hooks.zapier.com/hooks/catch/5126522/v7ouhu/"
 };
 
 function buildUrl(url, params) {
