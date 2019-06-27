@@ -74,7 +74,10 @@ export default {
     },
     getConferenceDetails() {
       getConference(this.$route.params.conferenceId).then((conf) => {
-        this.conference = conf;
+        this.conference = {
+          ...conf,
+          overview: `${conf.name} is a [community run, commercial, ...] [developer conference, trade show, ...] focussing on [web technologies, JavaScript, APIs, ...].\n\n[Extra details about the conference]` // eslint-disable-line max-len
+        };
       });
     },
     saveApprovals() {
