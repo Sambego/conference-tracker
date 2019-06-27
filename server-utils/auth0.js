@@ -230,7 +230,8 @@ function addToMarketingRoadmap(c, t, s, isMeetup) {
     speaker: s.name,
     owner: s.email,
     overview: isMeetup ? "" : c.overview,
-    topic: isMeetup ? "Meetup" : "Conference"
+    topic: isMeetup ? "Meetup" : "Conference",
+    location: getLocation(c)
   };
 
   let hook = buildUrl(url, data);
