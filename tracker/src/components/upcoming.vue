@@ -2,11 +2,43 @@
   <div class="conferences">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <b-row>
+      <b-col>&nbsp;</b-col>
+    </b-row>
 
     <h2>Upcoming Events</h2>
 
-    <b-row><b-col></b-col></b-row>
+    <b-row class="mb-4">
+      <b-col>
+        <b-card class="mt-3" header="Filters">
+          <b-row>
+            <b-col cols="4">
+              <b-form-group id="filter-type" label="Type" label-for="filter-type-select">
+                <b-form-select id="filter-type-select" v-model="type" :options="filters.type"></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col cols="4">
+              <b-form-group id="filter-region" label="Region" label-for="filter-region-select">
+                <b-form-select id="filter-region-select" v-model="region" :options="filters.region"></b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col cols="4">
+              <b-form-group
+                id="filter-search"
+                label="Search by name"
+                label-for="filter-search-input"
+              >
+                <b-form-input
+                  id="filter-search-input"
+                  v-model="searchQuery"
+                  placeholder="Enter a conference name"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </b-card>
+      </b-col>
+    </b-row>
 
     <b-row>
       <b-col>
@@ -22,10 +54,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="conference in conferences" :key="conference.type.substring(0,1) + conference._id">
+            <tr
+              v-for="conference in filteredEvents"
+              :key="conference.type.substring(0,1) + conference._id"
+            >
               <td>
-                <router-link v-if="conference.type=='CONFERENCE'" :to="'conference/' + conference._id">{{ conference.name }}</router-link>
-                <router-link v-if="conference.type=='MEETUP'" :to="'meetup/' + conference._id">{{ conference.name }}</router-link>
+                <router-link
+                  v-if="conference.type=='CONFERENCE'"
+                  :to="'conference/' + conference._id"
+                >{{ conference.name }}</router-link>
+                <router-link
+                  v-if="conference.type=='MEETUP'"
+                  :to="'meetup/' + conference._id"
+                >{{ conference.name }}</router-link>
                 <a :href="conference.url" target="_blank">🔗</a>
               </td>
               <td>
@@ -34,14 +75,12 @@
               </td>
               <td>
                 {{ dateFormat(conference.startDate) }}
-                <span v-if="conference.endDate && conference.startDate != conference.endDate"> to {{ dateFormat(conference.endDate) }}</span>
+                <span
+                  v-if="conference.endDate && conference.startDate != conference.endDate"
+                >to {{ dateFormat(conference.endDate) }}</span>
               </td>
-              <td>
-                {{ conference.location }}
-              </td>
-              <td>
-                {{ conference.speakers }}
-              </td>
+              <td>{{ conference.location }}</td>
+              <td>{{ conference.speakers }}</td>
               <td>
                 <ul class="list-inline">
                   <li class="list-inline-item" v-if="conference.type == 'CONFERENCE'">
@@ -68,7 +107,24 @@ export default {
   data() {
     return {
       conferences: [],
-      now: (new Date()).getTime()
+      now: new Date().getTime(),
+      region: null,
+      type: null,
+      searchQuery: "",
+      filters: {
+        region: [
+          { value: null, text: "All" },
+          { value: 1, text: "Americas" },
+          { value: 2, text: "EMEA" },
+          { value: 3, text: "APAC" },
+          { value: 4, text: "Global" }
+        ],
+        type: [
+          { value: null, text: "All" },
+          { value: "CONFERENCE", text: "Conference" },
+          { value: "MEETUP", text: "Meetup" }
+        ]
+      }
     };
   },
   mounted() {
@@ -79,14 +135,52 @@ export default {
       return dateFormat(d);
     },
     getUpcoming() {
-      getUpcomingConferences().then((conferences) => {
+      getUpcomingConferences().then(conferences => {
         this.conferences = conferences;
       });
     }
+  },
+  computed: {
+    filteredEvents() {
+      return getEventsByRegion(
+        getEventsByType(
+          getEventsByName(this.conferences, this.searchQuery),
+          this.type
+        ),
+        this.region
+      );
+    }
   }
+};
+
+const getEventsByRegion = (events, region) => {
+  return events.filter(event => {
+    if (!region) {
+      return true;
+    }
+
+    return event.regionId === region;
+  });
+};
+const getEventsByType = (events, type) => {
+  return events.filter(event => {
+    if (!type) {
+      return true;
+    }
+
+    return event.type === type;
+  });
+};
+const getEventsByName = (events, searchQuery) => {
+  return events.filter(event => {
+    if (!searchQuery) {
+      return true;
+    }
+
+    return event.name.includes(searchQuery);
+  });
 };
 </script>
 
 <style scoped>
-
 </style>
