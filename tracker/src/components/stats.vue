@@ -109,8 +109,6 @@ export default {
         columns: [
           ["Conferences", stats.general.typeConference],
           ["Meetups", stats.general.typeMeetup],
-          ["Online Meetups", stats.general.typeOnlineMeetup],
-          ["Online Courses", stats.general.typeOnlineCourse]
         ]
       });
     });
