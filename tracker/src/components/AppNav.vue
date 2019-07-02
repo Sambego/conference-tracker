@@ -9,14 +9,22 @@
 
       <b-navbar-nav>
         <b-nav-item v-if="permissions.showConferenceLink" to="/conferences">Conferences</b-nav-item>
-        <b-nav-item v-if="permissions.showMeetupLink"  to="/meetups">Meetups</b-nav-item>
-        <b-nav-item v-if="permissions.showUpcomingLink"  to="/upcoming">Upcoming</b-nav-item>
-        <b-nav-item v-if="permissions.showTalkLink"  to="/talks">My Talks</b-nav-item>
-        <b-nav-item v-if="permissions.showReportLink"  to="/reports">
-          Post-Event Reports
-          <b-badge pill variant="warning" v-if="notifications.reports > 0">{{ notifications.reports }}</b-badge>
-        </b-nav-item>
-        <b-nav-item v-if="permissions.showStatLink"  to="/stats">Stats</b-nav-item>
+        <b-nav-item v-if="permissions.showMeetupLink" to="/meetups">Meetups</b-nav-item>
+        <b-nav-item v-if="permissions.showUpcomingLink" to="/upcoming">Upcoming</b-nav-item>
+        <b-nav-item v-if="permissions.showTalkLink" to="/talks">My Talks</b-nav-item>
+        <b-nav-item-dropdown v-if="permissions.showReportLink || permissions.showReportsLink" >
+          <template slot="button-content">
+            Post-Event Reports
+            <b-badge pill variant="warning" v-if="notifications.reports > 0">{{ notifications.reports }}</b-badge>
+          </template>
+          <b-dropdown-item v-if="permissions.showReportLink" to="/reports">
+            Add reports
+          </b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showReportsLink" to="/reports/all">
+            View all reports
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item v-if="permissions.showStatLink" to="/stats">Stats</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -27,7 +35,7 @@
           <template slot="button-content">
             <img :src="getUserImage" class="profile-pic"/>
           </template>
-          <b-dropdown-item v-if="permissions.showProfileLink"  to="/profile">
+          <b-dropdown-item v-if="permissions.showProfileLink" to="/profile">
             Profile
           </b-dropdown-item>
           <b-dropdown-item href="#" @click="handleLogout()">Logout</b-dropdown-item>

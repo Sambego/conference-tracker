@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken, getUserParam } from "./auth";
 
-const BASE_URL = "https://conf-tracker.herokuapp.com";
-// const BASE_URL = "http://localhost:3333";
+// const BASE_URL = "https://conf-tracker.herokuapp.com";
+const BASE_URL = "http://localhost:3333";
 
 
 function getHeaders() {
@@ -127,6 +127,11 @@ function confirmMeetup(id, data) {
     return axios.put(url, data, getHeaders()).then(resp => resp.data);
 }
 
+function getAllReports() {
+    const url = `${BASE_URL}/api/reports`;
+    return axios.get(url, getHeaders()).then(resp => resp.data);
+}
+
 function getReportsToDo() {
     const url = `${BASE_URL}/api/reports/todo`;
     return axios.get(url, getHeaders()).then(resp => resp.data);
@@ -138,6 +143,11 @@ function getEventDetails(type, id) {
     }
 
     return getConference(id);
+}
+
+function getReport(reportId) {
+    const url = `${BASE_URL}/api/report/${reportId}`;
+    return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
 function createReport(data) {
@@ -192,7 +202,9 @@ export {
     droppedMeetup,
     rejectedMeetup,
     confirmMeetup,
+    getAllReports,
     getReportsToDo,
+    getReport,
     getEventDetails,
     createReport,
     getRegions,
