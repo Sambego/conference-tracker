@@ -34,7 +34,7 @@
                 {{ dateFormat(reportToDo.startDate) }}
               </td>
               <td>
-                <router-link :to="'report/' + reportToDo.type.toLowerCase() + '/' + reportToDo.id">
+                <router-link :to="'report/' + reportToDo.type.toLowerCase() + '/' + reportToDo.id + '/edit'">
                   <b-btn variant="sm" class="btn-success">Fill Report</b-btn>
                 </router-link>
               </td>
