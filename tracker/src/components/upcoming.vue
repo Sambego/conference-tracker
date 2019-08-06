@@ -101,6 +101,28 @@ import AppNav from "./AppNav";
 import { getUpcomingConferences } from "../utils/conf-api";
 import { dateFormat } from "../utils/helpers";
 
+const getEventsByRegion = (events, region) => events.filter((event) => {
+  if (!region) {
+    return true;
+  }
+
+  return event.regionId === region;
+});
+const getEventsByType = (events, type) => events.filter((event) => {
+  if (!type) {
+    return true;
+  }
+
+  return event.type === type;
+});
+const getEventsByName = (events, searchQuery) => events.filter((event) => {
+  if (!searchQuery) {
+    return true;
+  }
+
+  return event.name.includes(searchQuery);
+});
+
 export default {
   components: { AppNav },
   name: "upcoming",
@@ -135,7 +157,7 @@ export default {
       return dateFormat(d);
     },
     getUpcoming() {
-      getUpcomingConferences().then(conferences => {
+      getUpcomingConferences().then((conferences) => {
         this.conferences = conferences;
       });
     }
@@ -151,34 +173,6 @@ export default {
       );
     }
   }
-};
-
-const getEventsByRegion = (events, region) => {
-  return events.filter(event => {
-    if (!region) {
-      return true;
-    }
-
-    return event.regionId === region;
-  });
-};
-const getEventsByType = (events, type) => {
-  return events.filter(event => {
-    if (!type) {
-      return true;
-    }
-
-    return event.type === type;
-  });
-};
-const getEventsByName = (events, searchQuery) => {
-  return events.filter(event => {
-    if (!searchQuery) {
-      return true;
-    }
-
-    return event.name.includes(searchQuery);
-  });
 };
 </script>
 

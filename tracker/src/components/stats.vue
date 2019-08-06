@@ -108,7 +108,7 @@ export default {
       devReachedByType.load({
         columns: [
           ["Conferences", stats.general.typeConference],
-          ["Meetups", stats.general.typeMeetup],
+          ["Meetups", stats.general.typeMeetup]
         ]
       });
     });

@@ -48,7 +48,7 @@ export default {
   components: { AppNav },
   data() {
     return {
-      report: {},
+      report: {}
     };
   },
   mounted() {
@@ -61,10 +61,10 @@ export default {
     getReport() {
       if (this.$route.params.reportId) {
         getReport(this.$route.params.reportId).then((report) => {
-         this.report = {...report}
+          this.report = { ...report };
         });
       }
-    },
+    }
   }
 };
 </script>
