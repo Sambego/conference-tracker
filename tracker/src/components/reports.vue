@@ -41,9 +41,9 @@
             </tr>
           </tbody>
         </table>
-        <span>
-          <h3 v-if="reports.length == 0">No pending reports to fill</h3>
-          <router-link :to="'report/other'">
+        <span v-if="reports.length == 0">
+          <h3>No pending reports to fill</h3>
+          <router-link :to="'/conferences'">
             <b-btn class="btn-success">+ Add Other Event</b-btn>
           </router-link>
         </span>
