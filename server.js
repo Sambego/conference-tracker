@@ -440,6 +440,29 @@ app.put(
     }
 );
 
+app.delete("/api/conference/:id", [authCheck, guard.check("conference:delete")], async (req, res) => {
+  const deleteConferenceSql = `DELETE FROM conferences WHERE id = ?`;
+  const deleteSubmissionsSql = `DELETE FROM submissions WHERE conferenceId = ?`;
+  const getAllSubmissionsForConferenceSql = `SELECT * FROM submissions WHERE conferenceId = ?`;
+  // req.params.id
+
+  try {
+    const submissions = await query(getAllSubmissionsForConferenceSql, [req.params.id])
+
+    if (submissions.length > 0) {
+      await query(deleteSubmissionsSql, [req.params.id])
+      await query(deleteConferenceSql, [req.params.id])
+    } else {
+      await query(deleteConferenceSql, [req.params.id])
+    }
+
+    console.log(`The conference with ID ${req.params.id} has been deleted`);
+  } catch(error) {
+    console.error('Something went wrong deleting the conference with id', req.params.id, error);
+  }
+
+});
+
 app.get("/api/talks", [authCheck, guard.check("talk:list")], (req, res) => {
     getDBUserId(req.headers)
         .then(id => {
@@ -811,9 +834,9 @@ app.get(
 );
 
 app.get('/api/report/:reportId', [authCheck, guard.check("report:add")], (req, res) => {
-    const sql = `SELECT DISTINCT reports.id, reports.conferenceId AS "eventId", users.name AS "userName", reports.impressions, reports.developersReached, reports.relations, reports.eventName, reports.eventDate 
-    FROM reports 
-    JOIN users on users.id = reports.userId 
+    const sql = `SELECT DISTINCT reports.id, reports.conferenceId AS "eventId", users.name AS "userName", reports.impressions, reports.developersReached, reports.relations, reports.eventName, reports.eventDate
+    FROM reports
+    JOIN users on users.id = reports.userId
     WHERE reports.id = ?`
 
     query(sql, [req.params.reportId]).then((report) => {
