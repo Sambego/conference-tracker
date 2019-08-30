@@ -1,6 +1,6 @@
 <template>
   <span class="text-left">
-    <b-btn class="btn btn-success" v-b-modal.conferenceAddModal>+ Add</b-btn>
+    <b-btn class="btn btn-success d-block w-100" v-b-modal.conferenceAddModal>+ Add</b-btn>
 
     <b-modal size="lg" id="conferenceAddModal" title="Add Conference" @ok="handleOk" @show="onShown" ref="modal">
       <b-form>

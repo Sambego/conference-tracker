@@ -6,7 +6,8 @@ const PERMISSIONS = {
     SUBMIT: "conference:submit",
     ADD: "conference:add",
     DETAILS: "conference:details",
-    SUBMISSIONS: "conference:submissions"
+    SUBMISSIONS: "conference:submissions",
+    DELETE: "conference:delete"
   },
   MEETUP: {
     LIST: "meetup:list",
@@ -34,12 +35,14 @@ const PERMISSIONS = {
     AMBASSADOR: "role:ambassador",
     EVANGELIST: "role:evangelist",
     MANAGER: "role:manager",
-    SALES: "role:sales"
+    SALES: "role:sales",
+    ADMIN: "role:admin"
   }
 };
 
 const setPermissions = (newPermissions) => {
   permissions = newPermissions;
+  console.log(permissions);
   return permissions;
 };
 
@@ -61,10 +64,18 @@ const getNavbarPermissions = () => {
   };
 };
 
+const getConferenceListPermissions = () => {
+  return {
+    deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE),
+    deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isPermissionEnabled(PERMISSIONS.ROLE.ADMIN)
+  };
+};
+
 export {
   PERMISSIONS,
   isPermissionEnabled,
   setPermissions,
   isGuest,
-  getNavbarPermissions
+  getNavbarPermissions,
+  getConferenceListPermissions
 };

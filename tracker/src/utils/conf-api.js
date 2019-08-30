@@ -34,6 +34,11 @@ function addConference(data) {
   return axios.post(url, data, getHeaders()).then(resp => resp.data);
 }
 
+function deleteConference(id) {
+  const url = `${BASE_URL}/api/conference/${id}`;
+  return axios.delete(url, getHeaders()).then(resp => {console.log('Conf deleted'); return resp.data;}).catch(console.error);
+}
+
 function updateConference(conferenceId, data) {
   const url = `${BASE_URL}/api/conference/${conferenceId}`;
   return axios.put(url, data, getHeaders()).then(resp => resp.data);
@@ -185,6 +190,7 @@ export {
   getUpcomingConferences,
   getConference,
   addConference,
+  deleteConference,
   updateConference,
   getMyTalks,
   addTalk,
