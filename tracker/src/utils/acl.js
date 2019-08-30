@@ -42,7 +42,6 @@ const PERMISSIONS = {
 
 const setPermissions = (newPermissions) => {
   permissions = newPermissions;
-  console.log(permissions);
   return permissions;
 };
 

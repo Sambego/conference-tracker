@@ -457,8 +457,10 @@ app.delete("/api/conference/:id", [authCheck, guard.check("conference:delete")],
     }
 
     console.log(`The conference with ID ${req.params.id} has been deleted`);
+    res.sendStatus(204);
   } catch(error) {
     console.error('Something went wrong deleting the conference with id', req.params.id, error);
+    res.sendStatus(500);
   }
 
 });
