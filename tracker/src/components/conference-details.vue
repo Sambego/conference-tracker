@@ -41,6 +41,7 @@
           <th scope="col">Talk</th>
           <th scope="col">Presenter</th>
           <th scope="col">Status</th>
+          <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +53,10 @@
             <span v-if="submission.status === 'REJECTED'">👎</span>
             <span v-if="submission.status === 'NULL'">❓</span>
           </td>
+          <td>
+            <b-btn v-if="!isAdmin && canDeleteSubMission && submission.user.id === user.id" size="sm" variant="danger" @click="openSubmissionDeleteModal(submission.talk.title, submission._id)">Delete</b-btn>
+            <b-btn v-if="isAdmin && canDeleteSubMission" size="sm" variant="danger" @click="openSubmissionDeleteModal(submission.talk.title, submission.id)">Delete</b-btn>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -62,9 +67,9 @@
 
 <script>
 import AppNav from "./AppNav";
-import { getConference } from "../utils/conf-api";
+import { getConference, getLocalUser, deleteSubmission } from "../utils/conf-api";
 import { dateFormat, expensesCovered } from "../utils/helpers";
-import { isPermissionEnabled, PERMISSIONS } from "../utils/acl";
+import { isPermissionEnabled, PERMISSIONS, isAdmin } from "../utils/acl";
 
 export default {
   components: { AppNav },
@@ -72,11 +77,15 @@ export default {
   data() {
     return {
       conference: {},
-      canSeeList: isPermissionEnabled(PERMISSIONS.CONFERENCE.SUBMISSIONS)
+      user: {},
+      canSeeList: isPermissionEnabled(PERMISSIONS.CONFERENCE.SUBMISSIONS),
+      canDeleteSubMission: isPermissionEnabled(PERMISSIONS.SUBMISSION.DELETE),
+      isAdmin: isAdmin()
     };
   },
   mounted() {
     this.getConference();
+    this.getUser();
   },
   methods: {
     dateFormat(d) {
@@ -89,7 +98,26 @@ export default {
       getConference(this.$route.params.conferenceId).then((conference) => {
         this.conference = conference;
       });
-    }
+    },
+    getUser() {
+      getLocalUser().then(user => {
+        console.log(user);
+        this.user = user;
+      })
+    },
+    openSubmissionDeleteModal(name, id) {
+      this.$bvModal.msgBoxConfirm(`Are you sure you want to delete "${name}""? This action can not be undone.`, {
+        okVariant: "danger",
+        okTitle: "Yes, delete the submission"
+      })
+        .then((confirm) => {
+          if (confirm) {
+            deleteSubmission(id);
+            this.getConference();
+          }
+        })
+        .catch(console.error);
+    },
   }
 };
 </script>

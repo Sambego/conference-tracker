@@ -151,7 +151,7 @@ export default {
       rejectConference(id).then(this.getConferences);
     },
     openConferenceDeleteModal(name, id) {
-      this.$bvModal.msgBoxConfirm(`Are you sure you want to delete ${name}? This action can not be undone.`, {
+      this.$bvModal.msgBoxConfirm(`Are you sure you want to delete "${name}"? This action can not be undone.`, {
         okVariant: "danger",
         okTitle: "Yes, delete the conference"
       })

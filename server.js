@@ -240,8 +240,9 @@ app.get(
                 submissions.map(s => {
                     fullConference.submissions.push({
                         talk: { title: s.title },
-                        user: { name: s.name },
-                        status: s.status
+                        user: { name: s.name, id: s.userId },
+                        status: s.status,
+                        id: s.id
                     });
                 });
 
@@ -444,7 +445,6 @@ app.delete("/api/conference/:id", [authCheck, guard.check("conference:delete")],
   const deleteConferenceSql = `DELETE FROM conferences WHERE id = ?`;
   const deleteSubmissionsSql = `DELETE FROM submissions WHERE conferenceId = ?`;
   const getAllSubmissionsForConferenceSql = `SELECT * FROM submissions WHERE conferenceId = ?`;
-  // req.params.id
 
   try {
     const submissions = await query(getAllSubmissionsForConferenceSql, [req.params.id])
@@ -1034,6 +1034,21 @@ app.get("/api/stats", [authCheck, guard.check("stats:read")], (req, res) => {
 
             res.json(stats);
         });
+});
+
+app.delete("/api/submission/:id", [authCheck, guard.check("submission:delete")], async (req, res) => {
+  const deleteSubmissionSql = `DELETE FROM submissions WHERE id = ?`;
+
+  try {
+    await query(deleteSubmissionSql, [req.params.id])
+
+    console.log(`The submission with ID ${req.params.id} has been deleted`);
+    res.sendStatus(204);
+  } catch(error) {
+    console.error('Something went wrong deleting the submission with id', req.params.id, error);
+    res.sendStatus(500);
+  }
+
 });
 
 app.get("*", (req, res) => {

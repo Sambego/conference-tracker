@@ -64,6 +64,11 @@ function getMySubmissions(conferenceId) {
   return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
+function deleteSubmission(submissionId) {
+  const url = `${BASE_URL}/api/submission/${submissionId}`;
+  return axios.delete(url, getHeaders()).then(resp => resp.data);
+}
+
 function addTalk(data) {
   const url = `${BASE_URL}/api/talk`;
   data.userId = getUserParam("sub");
@@ -196,6 +201,7 @@ export {
   addTalk,
   getMySubmissions,
   addSubmissions,
+  deleteSubmission,
   addApprovals,
   rejectConference,
   saveLocalUser,

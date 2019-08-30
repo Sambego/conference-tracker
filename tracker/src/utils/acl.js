@@ -31,6 +31,9 @@ const PERMISSIONS = {
   PROFILE: {
     ALL: "profile:all"
   },
+  SUBMISSION: {
+    DELETE: "submission:delete",
+  },
   ROLE: {
     AMBASSADOR: "role:ambassador",
     EVANGELIST: "role:evangelist",
@@ -46,6 +49,7 @@ const setPermissions = (newPermissions) => {
 };
 
 const isGuest = () => !permissions.length;
+const isAdmin = () => permissions.includes(PERMISSIONS.ROLE.ADMIN);
 
 const isPermissionEnabled = permission => permissions.indexOf(permission) > -1;
 
@@ -65,7 +69,7 @@ const getNavbarPermissions = () => {
 
 const getConferenceListPermissions = () => ({
   deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE),
-  deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isPermissionEnabled(PERMISSIONS.ROLE.ADMIN)
+  deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isAdmin()
 });
 
 export {
@@ -73,6 +77,7 @@ export {
   isPermissionEnabled,
   setPermissions,
   isGuest,
+  isAdmin,
   getNavbarPermissions,
   getConferenceListPermissions
 };
