@@ -64,12 +64,10 @@ const getNavbarPermissions = () => {
   };
 };
 
-const getConferenceListPermissions = () => {
-  return {
-    deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE),
-    deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isPermissionEnabled(PERMISSIONS.ROLE.ADMIN)
-  };
-};
+const getConferenceListPermissions = () => ({
+  deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE),
+  deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isPermissionEnabled(PERMISSIONS.ROLE.ADMIN)
+});
 
 export {
   PERMISSIONS,

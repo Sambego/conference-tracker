@@ -36,7 +36,7 @@ function addConference(data) {
 
 function deleteConference(id) {
   const url = `${BASE_URL}/api/conference/${id}`;
-  return axios.delete(url, getHeaders()).then(resp => {console.log('Conf deleted'); return resp.data;}).catch(console.error);
+  return axios.delete(url, getHeaders()).then((resp) => { console.log("Conf deleted"); return resp.data; }).catch(console.error);
 }
 
 function updateConference(conferenceId, data) {

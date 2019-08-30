@@ -84,7 +84,7 @@
                     </router-link>
                     <b-btn size="sm" variant="outline-danger" @click="rejectConference(conference._id)">Rejected</b-btn>
                     <b-btn v-if="permissions.deleteOwnConference" size="sm" variant="danger" @click="openConferenceDeleteModal(conference.name, conference._id)">Delete</b-btn>
-                  </li>                  
+                  </li>
                   <li
                     class="list-inline-item"
                     v-if="!conference.mySubmissions && !conference.myApproved && !conference.myRejected && !conference.expired">
@@ -152,16 +152,16 @@ export default {
     },
     openConferenceDeleteModal(name, id) {
       this.$bvModal.msgBoxConfirm(`Are you sure you want to delete ${name}? This action can not be undone.`, {
-        okVariant: 'danger',
-        okTitle: 'Yes, delete the conference'
+        okVariant: "danger",
+        okTitle: "Yes, delete the conference"
       })
-          .then(confirm => {
-            if (confirm) {
-              deleteConference(id)
-              this.getConferences();
-            }
-          })
-          .catch(console.error)
+        .then((confirm) => {
+          if (confirm) {
+            deleteConference(id);
+            this.getConferences();
+          }
+        })
+        .catch(console.error);
     }
   }
 };
