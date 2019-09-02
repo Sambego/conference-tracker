@@ -465,50 +465,77 @@ app.delete("/api/conference/:id", [authCheck, guard.check("conference:delete")],
 
 });
 
-app.get("/api/talks", [authCheck, guard.check("talk:list")], (req, res) => {
-    getDBUserId(req.headers)
-        .then(id => {
-            let sql = `SELECT *, id _id FROM talks WHERE userId = ?`;
-            return query(sql, [id]);
-        })
-        .then(talks => {
-            res.json(talks);
-        });
+app.get("/api/user/talks", [authCheck, guard.check("talks:list")], async (req, res) => {
+    const sql = `SELECT *, id _id FROM talks WHERE userId = ?`;
+
+    try {
+      const userId = await getDBUserId(req.headers)
+      const talks = await query(sql, [userId])
+
+      return res.json(talks);
+    } catch(error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
 });
 
-app.post("/api/talk", [authCheck, guard.check("talk:list")], (req, res) => {
-    console.log("Create new talk");
+app.get("/api/talks", [authCheck, guard.check("talks:list")], async (req, res) => {
+    const sql = `SELECT ta.id, ta.title, ta.abstract, ta.notes, us.name FROM talks AS ta INNER JOIN users AS us ON ta.userId = us.id`;
 
-    getDBUserId(req.headers)
-        .then(id => {
-            let sql = `INSERT INTO talks SET ?`;
-            let talk = { title: req.body.title, userId: id };
-            return query(sql, [talk]);
-        })
-        .then(talk => {
-            res.json(talk);
-        });
+    try {
+      const talk = await query(sql);
+
+      return res.json(talk);
+    } catch(error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
 });
 
-app.get("/api/talk/:id", [authCheck, guard.check("talk:list")], (req, res) => {
-    queryOne(`SELECT * FROM talks WHERE id = ?`, [req.params.id]).then(talk => {
-        res.json(talk);
-    });
+app.post("/api/talks", [authCheck, guard.check("talks:list")], async (req, res) => {
+    const sql = `INSERT INTO talks SET ?`;
+
+    try {
+      const talk = { title: req.body.title};
+      const query = await query(sql, [talk]);
+
+      return res.json(talk);
+    } catch(error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
 });
 
-app.put("/api/talk/:id", [authCheck, guard.check("talk:list")], (req, res) => {
-    console.log("Update talk " + req.params.id, req.body);
-    let data = req.body;
+app.get("/api/talks/:id", [authCheck, guard.check("talks:list")], async (req, res) => {
+    const sql = `SELECT * FROM talks WHERE id = ?`
+
+    try {
+      const talk = await queryOne(sql, [req.params.id])
+
+      return res.json(talk);
+    } catch(error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
+
+});
+
+app.put("/api/talks/:id", [authCheck, guard.check("talks:list")], async (req, res) => {
+    const data = req.body;
     delete data.id;
-    let talkId = req.params.id;
-    let sql = `UPDATE talks SET ? WHERE id = ?`;
-    query(sql, [data, talkId])
-        .then(_ => {
-            return queryOne(`SELECT * FROM talks WHERE id = ?`, [talkId]);
-        })
-        .then(talk => {
-            res.json(talk);
-        });
+    const talkId = req.params.id;
+    const putSql = `UPDATE talks SET ? WHERE id = ?`;
+    const getSql = `SELECT * FROM talks WHERE id = ?`;
+
+    try {
+      const talk = await query(putSql, [data, talkId]);
+      const updatedTalk = await queryOne(getSql, [talkId]);
+
+      return res.json(updatedTalk);
+    } catch(error) {
+      console.error(error);
+      return res.sendStatus(500);
+    }
 });
 
 app.post(

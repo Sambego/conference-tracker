@@ -44,18 +44,23 @@ function updateConference(conferenceId, data) {
   return axios.put(url, data, getHeaders()).then(resp => resp.data);
 }
 
-function getMyTalks() {
+function getTalks() {
   const url = `${BASE_URL}/api/talks`;
   return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
+function getMyTalks(userId) {
+  const url = `${BASE_URL}/api/user/talks`;
+  return axios.get(url, getHeaders()).then(resp => resp.data);
+}
+
 function getTalkById(talkId) {
-  const url = `${BASE_URL}/api/talk/${talkId}`;
+  const url = `${BASE_URL}/api/talks/${talkId}`;
   return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
 function updateTalk(talkId, data) {
-  const url = `${BASE_URL}/api/talk/${talkId}`;
+  const url = `${BASE_URL}/api/talks/${talkId}`;
   return axios.put(url, data, getHeaders()).then(resp => resp.data);
 }
 
@@ -197,6 +202,7 @@ export {
   addConference,
   deleteConference,
   updateConference,
+  getTalks,
   getMyTalks,
   addTalk,
   getMySubmissions,

@@ -11,7 +11,17 @@
         <b-nav-item v-if="permissions.showConferenceLink" to="/conferences">Conferences</b-nav-item>
         <b-nav-item v-if="permissions.showMeetupLink" to="/meetups">Meetups</b-nav-item>
         <b-nav-item v-if="permissions.showUpcomingLink" to="/upcoming">Upcoming</b-nav-item>
-        <b-nav-item v-if="permissions.showTalkLink" to="/talks">My Talks</b-nav-item>
+        <b-nav-item-dropdown v-if="permissions.showTalkLink" to="/talks">
+          <template slot="button-content">
+            Talks
+          </template>
+          <b-dropdown-item v-if="permissions.showTalkLink"  to="/user/talks">
+            My talks
+          </b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showTalkLink" to="/talks">
+            All talks
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
         <b-nav-item-dropdown v-if="permissions.showReportLink || permissions.showReportsLink" >
           <template slot="button-content">
             Post-Event Reports

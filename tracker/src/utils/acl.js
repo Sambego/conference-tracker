@@ -18,7 +18,7 @@ const PERMISSIONS = {
     LIST: "upcoming:list"
   },
   TALK: {
-    LIST: "talk:list"
+    LIST: "talks:list"
   },
   REPORT: {
     DUE: "report:due",

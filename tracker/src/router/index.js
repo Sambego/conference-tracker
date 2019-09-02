@@ -6,6 +6,7 @@ import Unauthorized from "@/components/unauthorized";
 import Conferences from "@/components/conferences";
 import ConferenceDetails from "@/components/conference-details";
 import Upcoming from "@/components/upcoming";
+import UserTalks from "@/components/user-talks";
 import Talks from "@/components/talks";
 import Callback from "@/components/callback";
 import Submitted from "@/components/submitted";
@@ -108,6 +109,15 @@ export default new Router({
     name: "Upcoming",
     component: Upcoming,
     beforeEnter: requireAuth
+  },
+  {
+    path: "/user/talks",
+    name: "UserTalks",
+    component: UserTalks,
+    beforeEnter: requireAuth,
+    meta: {
+      requiredPermission: PERMISSIONS.TALK.LIST
+    }
   },
   {
     path: "/talks",
