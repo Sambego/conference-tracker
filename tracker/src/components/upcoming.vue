@@ -85,7 +85,7 @@
                   <td>{{ conference.location }}</td>
                   <td>{{ conference.speakers }}</td>
                   <td>
-                    <ul class="list-inline">
+                    <ul class="list-inline mb-0 pb-0">
                       <li class="list-inline-item" v-if="conference.type == 'CONFERENCE'">
                         <a :href="conference.slkLink" target="_blank">SLK</a>
                       </li>

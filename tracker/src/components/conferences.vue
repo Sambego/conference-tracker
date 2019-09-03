@@ -18,20 +18,10 @@
                 ></b-form-input>
               </b-col>
               <b-col cols="2" class="text-left pt-2">
-                <b-form-checkbox
-                  id="hide-expired"
-                  v-model="hideExpired"
-                  value="hide"
-                  unchecked-value="show"
-                >Hide Expired CFPs</b-form-checkbox>
+                <b-form-checkbox id="hide-expired" v-model="hideExpired">Hide Expired CFPs</b-form-checkbox>
               </b-col>
               <b-col cols="2" class="text-left pt-2">
-                <b-form-checkbox
-                  id="hide-rejected"
-                  v-model="hideRejected"
-                  value="hide"
-                  unchecked-value="show"
-                >Hide Rejected</b-form-checkbox>
+                <b-form-checkbox id="hide-rejected" v-model="hideRejected">Hide Rejected</b-form-checkbox>
               </b-col>
               <b-col cols="4">
                 <conference-add-modal
@@ -48,7 +38,7 @@
         <b-col>
           <b-card no-body>
             <b-card-header>All available conferences</b-card-header>
-            <table class="table table-striped table-borderless mb-0">
+            <table class="table table-borderless table-striped mb-0">
               <thead>
                 <tr>
                   <th scope="col">Conference Name</th>
@@ -58,18 +48,12 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="conference in conferences"
-                  :key="conference._id"
-                  v-show="(hideRejected == 'show' || (hideRejected === 'hide' && !conference.rejected))
-                        && (!filterText || (filterText.toLowerCase() && conference.name.toLowerCase().indexOf(filterText) > -1))
-                        && (hideExpired == 'show' || (hideExpired === 'hide' && !conference.expired))"
-                >
+                <tr v-for="conference in filteredEvents" :key="conference._id">
                   <td>
                     <router-link :to="'conference/' + conference._id">{{ conference.name }}</router-link>
                     <a :href="conference.url" target="_blank">🔗</a>
                   </td>
-                  <td v-show="hideRejected">
+                  <td>
                     {{ dateFormat(conference.startDate) }}
                     <span
                       v-if="conference.endDate != conference.startDate"
@@ -170,14 +154,41 @@ import {
 import { dateFormat } from "../utils/helpers";
 import { getConferenceListPermissions } from "../utils/acl";
 
+const getEventsByStatus = (events, showRejected = false) =>
+  events.filter((event) => {
+    if (showRejected) {
+      return true;
+    }
+
+    return !event.rejected;
+  });
+
+const getEventsByExpiryState = (events, showExpired = false) =>
+  events.filter((event) => {
+    if (showExpired) {
+      return true;
+    }
+
+    return !event.expired;
+  });
+
+const getEventsByName = (events, searchQuery) =>
+  events.filter((event) => {
+    if (!searchQuery) {
+      return true;
+    }
+
+    return event.name.includes(searchQuery);
+  });
+
 export default {
   components: { AppNav, ConferenceAddModal },
   name: "conferences",
   data() {
     return {
       conferences: [],
-      hideRejected: "hide",
-      hideExpired: "hide",
+      hideRejected: true,
+      hideExpired: true,
       now: new Date().getTime(),
       filterText: "",
       permissions: getConferenceListPermissions()
@@ -186,6 +197,7 @@ export default {
   mounted() {
     this.getConferences();
   },
+
   methods: {
     dateFormat(d) {
       return dateFormat(d);
@@ -215,6 +227,17 @@ export default {
           }
         })
         .catch(console.error);
+    }
+  },
+  computed: {
+    filteredEvents() {
+      return getEventsByStatus(
+        getEventsByExpiryState(
+          getEventsByName(this.conferences, this.filterText),
+          !this.hideExpired
+        ),
+        !this.hideRejected
+      );
     }
   }
 };
