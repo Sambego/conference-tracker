@@ -1,6 +1,5 @@
 <template>
-  <div>
-
+  <div class="landing">
     <b-jumbotron header="Welcome" lead="The Ultimate Conference Tracker">
       <p>Please login with your @auth0.com email account</p>
       <b-btn variant="primary" @click="handleLogin()">Login</b-btn>
@@ -31,5 +30,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

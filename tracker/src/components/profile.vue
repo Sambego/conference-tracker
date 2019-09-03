@@ -2,82 +2,71 @@
   <div class="profile">
     <app-nav></app-nav>
 
-    <b-row>
-      <b-col>&nbsp;</b-col>
-    </b-row>
+    <div class="container-fluid pt-5">
+      <h2 class="mb-3">Profile</h2>
 
-    <h2>Profile</h2>
+      <b-row class="mb-3">
+        <b-col class="text-right">
+          <b-btn class="btn btn-primary" @click="switchToEditMode" v-if="!editMode">Edit</b-btn>
+          <b-btn class="btn btn-success" @click="saveChanges" v-if="editMode">Save</b-btn>
+          <b-btn class="btn btn-danger" @click="cancelChanges" v-if="editMode">Cancel</b-btn>
+        </b-col>
+      </b-row>
 
-    <b-row>
-      <b-col></b-col>
-    </b-row>
+      <div v-if="editMode" class="profileForm">
+        <b-card no-body>
+          <b-card-header>Edit your profile</b-card-header>
+          <b-list-group flush>
+            <b-list-group-item>
+              <b-form>
+                <b-form-group id="bio" label="Bio:" label-for="bio" class="text-left">
+                  <b-form-textarea id="bio" v-model="bio" :rows="6"></b-form-textarea>
+                </b-form-group>
+              </b-form>
+            </b-list-group-item>
+            <b-list-group-item>
+              <b-form>
+                <label for="communityUsername" class="text-left d-block">Auth0 Community Username:</label>
+                <b-form-input
+                  id="communityUsername"
+                  v-model="communityUsername"
+                  :formatter="communityUsernameFormatter"
+                  placeholder="@username"
+                  name="communityUsername"
+                  aria-describedby="communityUsernameFormatterHelp"
+                ></b-form-input>
+                <b-form-text id="communityUsernameFormatterHelp">
+                  Enter you Auth0 Community (
+                  <a
+                    href="https://community.auth0.com"
+                  >https://community.auth0.com</a>)
+                  username including the "@"
+                </b-form-text>
+              </b-form>
+            </b-list-group-item>
+          </b-list-group>
+        </b-card>
+      </div>
 
-    <b-row>
-      <b-col class="text-right">
-        <b-btn class="btn btn-primary" @click="switchToEditMode" v-if="!editMode">Edit</b-btn>
-        <b-btn class="btn btn-success" @click="saveChanges" v-if="editMode">Save</b-btn>
-        <b-btn class="btn btn-danger" @click="cancelChanges" v-if="editMode">Cancel</b-btn>
-      </b-col>
-    </b-row>
-
-    <div v-if="editMode" class="profileForm">
-      <b-row>
-        <b-col>
-          <b-form>
-            <b-form-group id="bio" label="Bio:" label-for="bio">
-              <b-form-textarea id="bio" v-model="bio" :rows="6"></b-form-textarea>
-            </b-form-group>
-          </b-form>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <b-form>
-            <label for="communityUsername">Auth0 Community Username:</label>
-            <b-form-input
-              id="communityUsername"
-              v-model="communityUsername"
-              :formatter="communityUsernameFormatter"
-              placeholder="@username"
-              name="communityUsername"
-              aria-describedby="communityUsernameFormatterHelp"
-            ></b-form-input>
-            <b-form-text id="communityUsernameFormatterHelp">
-              Enter you Auth0 Community (
-              <a
-                href="https://community.auth0.com"
-              >https://community.auth0.com</a>)
-              username including the "@"
-            </b-form-text>
-          </b-form>
-        </b-col>
-      </b-row>
-    </div>
-
-    <div v-if="!editMode" class="profileData">
-      <b-row>
-        <b-col>
-          <span class="label">Bio</span>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col cols="11">
-          <p>{{ bio }}</p>
-        </b-col>
-        <b-col>
-          <span class="copyBtn" v-clipboard:copy="bio">📋</span>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <span class="label">Auth0 Community Username</span>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <p>{{ communityUsername }}</p>
-        </b-col>
-      </b-row>
+      <div v-if="!editMode" class="profileData">
+        <b-row>
+          <b-col>
+            <b-card no-body>
+              <b-card-header>Bio</b-card-header>
+              <b-list-group flush>
+                <b-list-group-item>
+                  {{ bio }}
+                  <span class="copyBtn" v-clipboard:copy="bio">📋</span>
+                </b-list-group-item>
+              </b-list-group>
+              <b-card-header>Auth0 Community Username</b-card-header>
+              <b-list-group flush>
+                <b-list-group-item>{{ communityUsername }}</b-list-group-item>
+              </b-list-group>
+            </b-card>
+          </b-col>
+        </b-row>
+      </div>
     </div>
   </div>
 </template>
@@ -118,7 +107,7 @@ export default {
       this.editMode = true;
     },
     getProfile() {
-      getLocalUser().then((profile) => {
+      getLocalUser().then(profile => {
         this.bio = profile.bio;
         this.communityUsername = profile.communityUsername;
       });

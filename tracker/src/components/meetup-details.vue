@@ -2,32 +2,30 @@
   <div class="conference-details">
     <app-nav></app-nav>
 
-    <b-row>
-      <b-col>&nbsp;</b-col>
-    </b-row>
+    <div class="container-fluid pt-5">
+      <b-row>
+        <b-col md="4" offset="4">
+          <b-card no-body>
+            <h4 slot="header" class="mb-0">{{meetup.name}}</h4>
+            <b-card-body border>
+              <p>This event will be held in {{ meetup.location }} on {{ dateFormat(meetup.startDate) }}.</p>
+            </b-card-body>
 
-    <h2>{{ meetup.name }}</h2>
+            <b-card-header>
+              <h4 class="mb-0">Talk</h4>
+            </b-card-header>
 
-    <b-row>
-      <b-col></b-col>
-    </b-row>
+            <b-card-body>
+              <p class="mb-0">{{ talk.title }} by {{ user.name }}</p>
+            </b-card-body>
 
-    <b-row>
-      <b-col>This event will be held in {{ meetup.location }} on {{ dateFormat(meetup.startDate) }}.</b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <br />
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>{{ talk.title }} by {{ user.name }}</b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <a :href="`https://www.meetup.com/${meetup.meetupUrlName}`">Meetup Page</a>
-      </b-col>
-    </b-row>
+            <b-card-footer>
+              <a :href="`https://www.meetup.com/${meetup.meetupUrlName}`">Meetup Page</a>
+            </b-card-footer>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -54,7 +52,7 @@ export default {
       return dateFormat(d);
     },
     getMeetup() {
-      getMeetup(this.$route.params.meetupId).then((meetup) => {
+      getMeetup(this.$route.params.meetupId).then(meetup => {
         this.meetup = meetup;
         this.talk = meetup.talk;
         this.user = meetup.user;

@@ -2,35 +2,33 @@
   <div class="talks">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <div class="container-fluid pt-5">
+      <h2 class="mb-3">All talks</h2>
 
-    <h2>All talks</h2>
-
-
-    <b-row><b-col></b-col></b-row>
-
-    <b-row>
-      <b-col>
-        <table class="table table-striped">
-          <thead class="thead-dark">
-          <tr>
-            <th scope="col">Talk Title</th>
-            <th scope="col">Author</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="talk in talks" :key="talk.id">
-            <td>
-              <router-link :to="'talk/' + talk.id">{{ talk.title }}</router-link>
-            </td>
-            <td>
-              {{talk.name}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </b-col>
-    </b-row>
+      <b-row>
+        <b-col>
+          <b-card no-body>
+            <b-card-header>All available talks</b-card-header>
+            <table class="table table-striped table-borderless mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Talk Title</th>
+                  <th scope="col">Author</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="talk in talks" :key="talk.id">
+                  <td>
+                    <router-link :to="'talk/' + talk.id">{{ talk.title }}</router-link>
+                  </td>
+                  <td>{{talk.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -52,7 +50,7 @@ export default {
   },
   methods: {
     getTalks() {
-      getTalks().then((talks) => {
+      getTalks().then(talks => {
         this.talks = talks;
       });
     }
@@ -61,5 +59,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

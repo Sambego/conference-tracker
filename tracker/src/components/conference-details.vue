@@ -2,78 +2,66 @@
   <div class="conference-details">
     <app-nav></app-nav>
 
-    <b-row>
-      <b-col>&nbsp;</b-col>
-    </b-row>
+    <div class="container-fluid pt-5">
+      <b-row>
+        <b-col>
+          <b-card no-body>
+            <h4 slot="header" class="mb-0">{{conference.name}}</h4>
+            <b-card-body>
+              <p>
+                This event will be held in {{ conference.city }} from {{ dateFormat(conference.startDate) }}
+                to {{ dateFormat(conference.endDate) }}.
+              </p>
+            </b-card-body>
+            <b-list-group flush>
+              <b-list-group-item>✈️ {{ expensesCovered(conference.travelCovered) }}</b-list-group-item>
+              <b-list-group-item>🏨 {{ expensesCovered(conference.lodgingCovered) }}</b-list-group-item>
+            </b-list-group>
+          </b-card>
+        </b-col>
+        <b-col>
+          <b-card no-body>
+            <h4 slot="header" class="mb-0">Submissions</h4>
 
-    <h2>{{ conference.name }}</h2>
-
-    <b-row>
-      <b-col></b-col>
-    </b-row>
-
-    <b-row>
-      <b-col>
-        This event will be held in {{ conference.city }} from {{ dateFormat(conference.startDate) }}
-        to {{ dateFormat(conference.endDate) }}.
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col>Expenses Covered?</b-col>
-    </b-row>
-    <b-row>
-      <b-col cols="2" offset="4">✈️ {{ expensesCovered(conference.travelCovered) }}</b-col>
-      <b-col cols="2">🏨 {{ expensesCovered(conference.lodgingCovered) }}</b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <br />
-      </b-col>
-    </b-row>
-    <b-row v-if="canSeeList">
-      <b-col>
-        <h4>Submissions</h4>
-      </b-col>
-    </b-row>
-    <b-row v-if="canSeeList">
-      <b-col>
-        <table class="table table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Talk</th>
-              <th scope="col">Presenter</th>
-              <th scope="col">Status</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="submission in conference.submissions" :key="submission._id">
-              <td>{{ submission.talk.title }}</td>
-              <td>{{ submission.user.name }}</td>
-              <td>
-                <span v-if="submission.status === 'APPROVED'">👍</span>
-                <span v-if="submission.status === 'REJECTED'">👎</span>
-                <span v-if="submission.status === 'NULL'">❓</span>
-              </td>
-              <td>
-                <b-btn
-                  v-if="canDeleteOwnSubMission && submission.user.id === user.id"
-                  size="sm"
-                  variant="danger"
-                  @click="openSubmissionDeleteModal(submission.talk.title, submission._id)"
-                >Delete</b-btn>
-                <b-btn
-                  v-if="canDeleteAnySubMission  && submission.user.id !== user.id"
-                  size="sm"
-                  variant="danger"
-                  @click="openSubmissionDeleteModal(submission.talk.title, submission.id)"
-                >Delete</b-btn>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </b-col>
-    </b-row>
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Talk</th>
+                  <th scope="col">Presenter</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="submission in conference.submissions" :key="submission._id">
+                  <td>{{ submission.talk.title }}</td>
+                  <td>{{ submission.user.name }}</td>
+                  <td>
+                    <span v-if="submission.status === 'APPROVED'">👍</span>
+                    <span v-if="submission.status === 'REJECTED'">👎</span>
+                    <span v-if="submission.status === 'NULL'">❓</span>
+                  </td>
+                  <td>
+                    <b-btn
+                      v-if="canDeleteOwnSubMission && submission.user.id === user.id"
+                      size="sm"
+                      variant="danger"
+                      @click="openSubmissionDeleteModal(submission.talk.title, submission._id)"
+                    >Delete</b-btn>
+                    <b-btn
+                      v-if="canDeleteAnySubMission  && submission.user.id !== user.id"
+                      size="sm"
+                      variant="danger"
+                      @click="openSubmissionDeleteModal(submission.talk.title, submission.id)"
+                    >Delete</b-btn>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -115,12 +103,12 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then((conference) => {
+      getConference(this.$route.params.conferenceId).then(conference => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then((user) => {
+      getLocalUser().then(user => {
         console.log(user);
         this.user = user;
       });
@@ -134,7 +122,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then((confirm) => {
+        .then(confirm => {
           if (confirm) {
             deleteSubmission(id);
             this.getConference();

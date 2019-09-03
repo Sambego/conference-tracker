@@ -2,50 +2,41 @@
   <div class="reports">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
-
-    <h2>All Post-Event Reports</h2>
-
-
-    <b-row><b-col>&nbsp;</b-col></b-row>
-
-    <b-row>
-      <b-col>
-        <table class="table table-striped" v-if="reports.length > 0">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Conference Name</th>
-              <th scope="col">Type</th>
-              <th scope="col">Date</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="report in reports" :key="report.type.substring(0,1) + report.id">
-              <td>
-                {{ report.name }}
-              </td>
-              <td>
-                <b-badge pill variant="success" v-if="report.type=='CONFERENCE'">Conference</b-badge>
-                <b-badge pill variant="danger" v-if="report.type=='MEETUP'">Meetup</b-badge>
-              </td>
-              <td>
-                {{ dateFormat(report.startDate) }}
-              </td>
-              <td>
-                <router-link :to="`/report/${report.reportId}/read/`">
-                  <b-btn variant="sm" class="btn-success">Read Report</b-btn>
-                </router-link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </b-col>
-    </b-row>
-
-    <b-row><b-col>&nbsp;</b-col></b-row>
-
-
+    <div class="container-fluid pt-5">
+      <h2 class="mb-3">All Post-Event Reports</h2>
+      <b-row>
+        <b-col>
+          <b-card no-body>
+            <b-card-header>All reports</b-card-header>
+            <table class="table table-striped table-borderless mb-0" v-if="reports.length > 0">
+              <thead>
+                <tr>
+                  <th scope="col">Conference Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="report in reports" :key="report.type.substring(0,1) + report.id">
+                  <td>{{ report.name }}</td>
+                  <td>
+                    <b-badge pill variant="success" v-if="report.type=='CONFERENCE'">Conference</b-badge>
+                    <b-badge pill variant="danger" v-if="report.type=='MEETUP'">Meetup</b-badge>
+                  </td>
+                  <td>{{ dateFormat(report.startDate) }}</td>
+                  <td>
+                    <router-link :to="`/report/${report.reportId}/read/`">
+                      <b-btn variant="sm" class="btn-success">Read Report</b-btn>
+                    </router-link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -71,7 +62,7 @@ export default {
       return dateFormat(d);
     },
     getReports() {
-      getAllReports().then((reports) => {
+      getAllReports().then(reports => {
         this.reports = reports;
       });
     }
@@ -80,5 +71,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

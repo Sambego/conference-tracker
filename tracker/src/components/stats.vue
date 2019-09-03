@@ -2,47 +2,52 @@
   <div class="stats">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <div class="container-fluid pt-5">
+      <h2>Data is beautiful 🌈</h2>
 
-    <h2>Data is beautiful 🌈</h2>
+      <b-row>
+        <b-col>&nbsp;</b-col>
+      </b-row>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+      <b-row>
+        <b-col cols="10" offset="1">
+          <b-card class="text-center">
+            So far this year, the evangelism team attended
+            <b>{{ stats.general.totalEvents }} events</b>,
+            reaching out to
+            <b>{{ stats.general.totalDevelopersReached }} developers</b>.
+          </b-card>
+        </b-col>
+      </b-row>
 
-    <b-row>
-      <b-col cols="10" offset="1">
-        <b-card class="text-center">
-          So far this year, the evangelism team attended <b>{{ stats.general.totalEvents }} events</b>,
-          reaching out to <b>{{ stats.general.totalDevelopersReached }} developers</b>.
-        </b-card>
-      </b-col>
-    </b-row>
+      <b-row>
+        <b-col>&nbsp;</b-col>
+      </b-row>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+      <div class="subsection-title">
+        <h5>Developers Reached per Month</h5>
+      </div>
 
-    <div class="subsection-title">
-      <h5>Developers Reached per Month</h5>
-    </div>
-
-    <div class="container">
+      <div class="container">
         <div id="devReachByMonth"></div>
-    </div>
+      </div>
 
-    <div class="subsection-title">
-      <h5>Developers Reached by Source</h5>
-    </div>
+      <div class="subsection-title">
+        <h5>Developers Reached by Source</h5>
+      </div>
 
-    <div class="container">
-      <div id="devReachBySource"></div>
-    </div>
+      <div class="container">
+        <div id="devReachBySource"></div>
+      </div>
 
-    <div class="subsection-title">
-      <h5>Developers Reached by Type</h5>
-    </div>
+      <div class="subsection-title">
+        <h5>Developers Reached by Type</h5>
+      </div>
 
-    <div class="container">
-      <div id="devReachByType"></div>
+      <div class="container">
+        <div id="devReachByType"></div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -61,7 +66,20 @@ export default {
       axis: {
         x: {
           type: "category",
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          categories: [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ],
           label: {
             text: "Month",
             position: "outer-middle"
@@ -79,15 +97,10 @@ export default {
       size: { height: "300px" },
       data: { type: "pie", columns: [] }
     });
-    getStats().then((stats) => {
+    getStats().then(stats => {
       this.stats = stats;
-      const monthlyStats = [
-        ["Total"],
-        ["Americas"],
-        ["EMEA"],
-        ["APAC"]
-      ];
-      stats.monthly.map((s) => {
+      const monthlyStats = [["Total"], ["Americas"], ["EMEA"], ["APAC"]];
+      stats.monthly.map(s => {
         monthlyStats[0].push(s.total);
         monthlyStats[1].push(s.americas);
         monthlyStats[2].push(s.emea);
@@ -121,9 +134,7 @@ export default {
     };
   }
 };
-
 </script>
 
 <style scoped>
-
 </style>
