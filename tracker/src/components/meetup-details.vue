@@ -1,30 +1,34 @@
 <template>
-<div class="conference-details">
-  <app-nav></app-nav>
+  <div class="conference-details">
+    <app-nav></app-nav>
 
-  <b-row><b-col>&nbsp;</b-col></b-row>
+    <b-row>
+      <b-col>&nbsp;</b-col>
+    </b-row>
 
-  <h2>{{ meetup.name }}</h2>
+    <h2>{{ meetup.name }}</h2>
 
-  <b-row><b-col></b-col></b-row>
+    <b-row>
+      <b-col></b-col>
+    </b-row>
 
-  <b-row>
-    <b-col>
-      This event will be held in {{ meetup.location }} on {{ dateFormat(meetup.startDate) }}.
-    </b-col>
-  </b-row>
-  <b-row><b-col><br/></b-col></b-row>
-  <b-row>
-    <b-col>
-      {{ meetup.talkId.title }} by {{ meetup.userId.name }}
-    </b-col>
-  </b-row>
-  <b-row>
-    <b-col>
-      <a :href="`https://www.meetup.com/${meetup.meetupUrlName}`">Meetup Page</a>
-    </b-col>
-  </b-row>
-</div>
+    <b-row>
+      <b-col>This event will be held in {{ meetup.location }} on {{ dateFormat(meetup.startDate) }}.</b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <br />
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>{{ talk.title }} by {{ user.name }}</b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <a :href="`https://www.meetup.com/${meetup.meetupUrlName}`">Meetup Page</a>
+      </b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
@@ -37,7 +41,9 @@ export default {
   name: "meetupDetails",
   data() {
     return {
-      meetup: {}
+      meetup: {},
+      talk: {},
+      user: {}
     };
   },
   mounted() {
@@ -48,8 +54,11 @@ export default {
       return dateFormat(d);
     },
     getMeetup() {
-      getMeetup(this.$route.params.meetupId).then((meetup) => {
+      getMeetup(this.$route.params.meetupId).then(meetup => {
         this.meetup = meetup;
+        this.talk = meetup.talk;
+        this.user = meetup.user;
+        console.log(this.talk, this.user);
       });
     }
   }
@@ -57,5 +66,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

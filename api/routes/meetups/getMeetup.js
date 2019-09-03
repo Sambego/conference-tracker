@@ -7,17 +7,19 @@ const handleGetMeetups = async(req, res) => {
         const meetup = await query.once(`SELECT * FROM meetups WHERE id = ?`, [
             req.params.id
         ]);
-        const user = await query.once(`SELECT * FROM users WHERE id = ?`, [
+        const user = query.once(`SELECT * FROM users WHERE id = ?`, [
             meetup.userId
         ]);
-        const talk = await query.once(`SELECT * FROM talks WHERE id = ?`, [
+        const talk = query.once(`SELECT * FROM talks WHERE id = ?`, [
             meetup.talkId
         ]);
-        meetup.userId = user;
-        meetup.talkId = talk;
 
         console.log(`Getting meetup with id ${req.params.id} details`);
-        res.json({ user, talk });
+        res.json({
+            ...meetup,
+            user: {...(await user) },
+            talk: {...(await talk) }
+        });
     } catch (error) {
         console.error(error);
         return res.sendStatus(500);

@@ -1,4 +1,3 @@
-const helpers = require("../../utils/helpers");
 const permissions = require("../../utils/permissions");
 const query = require("../../utils/query");
 
@@ -33,7 +32,7 @@ module.exports = app => {
     app.get(
         "/api/conferences/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCE.DETAILS)
+            permissions.guard.check(permissions.permissions.CONFERENCES.DETAILS)
         ],
         handleGetConference
     );

@@ -23,7 +23,7 @@ module.exports = app => {
     app.get(
         "/api/reports/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.REPORTS.READ)
+            permissions.guard.check(permissions.permissions.REPORTS.DETAILS)
         ],
         handleGetReport
     );

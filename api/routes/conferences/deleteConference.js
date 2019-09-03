@@ -1,4 +1,3 @@
-const helpers = require("../../utils/helpers");
 const permissions = require("../../utils/permissions");
 const query = require("../../utils/query");
 
@@ -31,7 +30,8 @@ module.exports = app => {
     app.delete(
         "/api/conferences/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCE.DELETE)
+            permissions.guard.check(permissions.permissions.CONFERENCES.DELETE_OWN) ||
+            permissions.guard.check(permissions.permissions.CONFERENCES.DELETE_ANY)
         ],
         handleDeleteConference
     );

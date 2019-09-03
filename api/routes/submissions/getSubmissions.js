@@ -21,7 +21,7 @@ const handleGetSubmissions = async(req, res) => {
 
 module.exports = app => {
     app.get(
-        "/api/conferences/:id/submissions", [
+        "/api/submissions/conference/:id/", [
             permissions.authCheck,
             permissions.guard.check(permissions.permissions.SUBMISSIONS.LIST)
         ],

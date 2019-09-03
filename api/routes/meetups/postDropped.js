@@ -16,9 +16,9 @@ const handlePostDroppedMeetup = async(req, res) => {
 
 module.exports = app => {
     app.post(
-        "/api/meetup/:id/dropped/", [
+        "/api/meetups/:id/dropped/", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.MEETUPS.LIST)
+            permissions.guard.check(permissions.permissions.SUBMISSIONS.ADD)
         ],
         handlePostDroppedMeetup
     );

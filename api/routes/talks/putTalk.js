@@ -24,7 +24,7 @@ module.exports = app => {
     app.put(
         "/api/talks/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.TALK.UPDATE)
+            permissions.guard.check(permissions.permissions.TALKS.UPDATE)
         ],
         handlePutTalk
     );

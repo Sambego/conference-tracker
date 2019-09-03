@@ -65,7 +65,7 @@
                 >{{ conference.name }}</router-link>
                 <router-link
                   v-if="conference.type=='MEETUP'"
-                  :to="'meetup/' + conference._id"
+                  :to="'meetups/' + conference._id"
                 >{{ conference.name }}</router-link>
                 <a :href="conference.url" target="_blank">🔗</a>
               </td>

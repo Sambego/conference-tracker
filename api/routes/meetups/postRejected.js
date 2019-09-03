@@ -16,9 +16,9 @@ const handlePostRejectedMeetup = async(req, res) => {
 
 module.exports = app => {
     app.post(
-        "/api/meetup/:id/rejected/", [
+        "/api/meetups/:id/rejected/", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.MEETUPS.LIST)
+            permissions.guard.check(permissions.permissions.SUBMISSIONS.REJECT)
         ],
         handlePostRejectedMeetup
     );

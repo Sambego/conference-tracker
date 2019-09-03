@@ -1,49 +1,52 @@
 let permissions = [];
 
 const PERMISSIONS = {
-    CONFERENCE: {
-        LIST: "conference:list",
-        SUBMIT: "conference:submit",
-        ADD: "conference:add",
-        DETAILS: "conference:details",
-        SUBMISSIONS: "conference:submissions",
-        DELETE: "conference:delete"
+    CONFERENCES: {
+        LIST: "conferences:list",
+        DETAILS: "conferences:details",
+        ADD: "conferences:add",
+        UPDATE: "conferences:update",
+        DELETE_OWN: "conferences:delete:own",
+        DELETE_ANY: "conferences:delete:any"
     },
-    MEETUP: {
-        LIST: "meetup:list",
-        FIND: "meetup:find",
-        DETAILS: "meetup:details"
+    MEETUPS: {
+        LIST: "meetups:list",
+        DETAILS: "meetups:details",
+        FIND: "meetups:find",
+        UPDATE: "meetups:update",
+        DELETE_OWN: "meetups:delete:own",
+        DELETE_ANY: "meetups:delete:any"
     },
     UPCOMING: {
         LIST: "upcoming:list"
     },
-    TALK: {
-        LIST: "talks:list"
-    },
-    REPORT: {
-        DUE: "report:due",
-        ADD: "report:add",
-        READ: "report:read"
-    },
-    STATS: {
-        READ: "stats:read"
+    REPORTS: {
+        LIST_OWN: "reports:list:own",
+        LIST_ANY: "reports:list:any",
+        DETAILS: "reports:details",
+        ADD: "reports:add"
     },
     PROFILE: {
         ALL: "profile:all"
     },
-    SUBMISSION: {
-        LIST: "submission:list",
-        ADD: "submission:add",
-        APPROVE: "submission:approve",
-        REJECT: "submission:reject",
-        DELETE: "submission:delete"
+    SUBMISSIONS: {
+        LIST: "submissions:list",
+        ADD: "submissions:add",
+        APPROVE: "submissions:approve",
+        REJECT: "submissions:reject",
+        DELETE_OWN: "submissions:delete:own",
+        DELETE_ANY: "submissions:delete:any"
     },
-    ROLE: {
-        AMBASSADOR: "role:ambassador",
-        EVANGELIST: "role:evangelist",
-        MANAGER: "role:manager",
-        SALES: "role:sales",
-        ADMIN: "role:admin"
+    TALKS: {
+        LIST: "talks:list",
+        DETAILS: "talks:details",
+        ADD: "talks:add",
+        UPDATE: "talks:update",
+        DELETE_OWN: "talks:delete:own",
+        DELETE_ANY: "talks:update:delete:any"
+    },
+    STATS: {
+        READ: "stats:read"
     }
 };
 
@@ -53,27 +56,42 @@ const setPermissions = (newPermissions) => {
 };
 
 const isGuest = () => !permissions.length;
-const isAdmin = () => permissions.includes(PERMISSIONS.ROLE.ADMIN);
+const isAdmin = () => permissions.includes(PERMISSIONS.CONFERENCES.DELETE_ANY); // @todo, get the actual roles from auth0
 
 const isPermissionEnabled = permission => permissions.indexOf(permission) > -1;
 
 // eslint-disable-next-line arrow-body-style
 const getNavbarPermissions = () => {
     return {
-        showConferenceLink: isPermissionEnabled(PERMISSIONS.CONFERENCE.LIST),
-        showMeetupLink: isPermissionEnabled(PERMISSIONS.MEETUP.LIST),
+        showConferenceLink: isPermissionEnabled(PERMISSIONS.CONFERENCES.LIST),
+        showMeetupLink: isPermissionEnabled(PERMISSIONS.MEETUPS.LIST),
         showUpcomingLink: isPermissionEnabled(PERMISSIONS.UPCOMING.LIST),
-        showTalkLink: isPermissionEnabled(PERMISSIONS.TALK.LIST),
-        showReportLink: isPermissionEnabled(PERMISSIONS.REPORT.ADD) || isPermissionEnabled(PERMISSIONS.REPORT.DUE),
+        showOwnTalkLink: isPermissionEnabled(PERMISSIONS.TALKS.ADD),
+        showTalkLink: isPermissionEnabled(PERMISSIONS.TALKS.LIST),
+        showDueReportsLink: isPermissionEnabled(PERMISSIONS.REPORTS.LIST_OWN),
+        showAllReportsLink: isPermissionEnabled(PERMISSIONS.REPORTS.LIST_ANY),
         showStatLink: isPermissionEnabled(PERMISSIONS.STATS.READ),
-        showProfileLink: isPermissionEnabled(PERMISSIONS.PROFILE.ALL),
-        showReportsLink: isPermissionEnabled(PERMISSIONS.REPORT.READ)
+        showProfileLink: isPermissionEnabled(PERMISSIONS.PROFILE.ALL)
     };
 };
 
 const getConferenceListPermissions = () => ({
-    deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE),
-    deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCE.DELETE) && isAdmin()
+    addConference: isPermissionEnabled(PERMISSIONS.CONFERENCES.ADD),
+    deleteOwnConference: isPermissionEnabled(PERMISSIONS.CONFERENCES.DELETE_OWN),
+    deleteAnyConference: isPermissionEnabled(PERMISSIONS.CONFERENCES.DELETE_ANY)
 });
 
-export { PERMISSIONS, isPermissionEnabled, setPermissions, isGuest, isAdmin, getNavbarPermissions, getConferenceListPermissions };
+const getMeetupListPermissions = () => ({
+    findMeetup: isPermissionEnabled(PERMISSIONS.MEETUPS.FIND)
+});
+
+export {
+    PERMISSIONS,
+    isPermissionEnabled,
+    setPermissions,
+    isGuest,
+    isAdmin,
+    getNavbarPermissions,
+    getConferenceListPermissions,
+    getMeetupListPermissions
+};

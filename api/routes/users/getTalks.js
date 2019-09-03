@@ -19,7 +19,7 @@ module.exports = app => {
     app.get(
         "/api/users/:id/talks", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.TALK.LIST)
+            permissions.guard.check(permissions.permissions.TALKS.LIST)
         ],
         handleGetConferences
     );

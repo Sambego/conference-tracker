@@ -18,7 +18,7 @@ module.exports = app => {
     app.get(
         "/api/talks", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.TALK.LIST)
+            permissions.guard.check(permissions.permissions.TALKS.LIST)
         ],
         handleGetTalks
     );

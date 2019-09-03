@@ -1,5 +1,3 @@
-const helpers = require("../../utils/helpers");
-const permissions = require("../../utils/permissions");
 const query = require("../../utils/query");
 
 const handleGetSLK = async(req, res) => {

@@ -19,7 +19,8 @@ module.exports = app => {
     app.delete(
         "/api/submissions/:id/", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.SUBMISSIONS.DELETE)
+            permissions.guard.check(permissions.permissions.SUBMISSIONS.DELETE_OWN) ||
+            permissions.guard.check(permissions.permissions.SUBMISSIONS.DELETE_ANY)
         ],
         handleDeleteSubmission
     );

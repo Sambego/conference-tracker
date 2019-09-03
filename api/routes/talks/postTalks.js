@@ -20,7 +20,7 @@ module.exports = app => {
     app.post(
         "/api/talks", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.TALK.ADD)
+            permissions.guard.check(permissions.permissions.TALKS.ADD)
         ],
         handlePostTalks
     );

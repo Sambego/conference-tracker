@@ -74,7 +74,7 @@ export default new Router({
             component: Conferences,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.CONFERENCE.LIST
+                requiredPermission: PERMISSIONS.CONFERENCES.LIST
             }
         },
         {
@@ -83,7 +83,7 @@ export default new Router({
             component: ConferenceDetails,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.CONFERENCE.DETAILS
+                requiredPermission: PERMISSIONS.CONFERENCES.DETAILS
             }
         },
         {
@@ -92,7 +92,7 @@ export default new Router({
             component: Submitted,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.CONFERENCE.SUBMIT
+                requiredPermission: PERMISSIONS.SUBMISSIONS.LIST
             }
         },
         {
@@ -101,7 +101,7 @@ export default new Router({
             component: Approved,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.CONFERENCE.SUBMIT
+                requiredPermission: PERMISSIONS.SUBMISSIONS.APPROVE
             }
         },
         {
@@ -116,7 +116,7 @@ export default new Router({
             component: UserTalks,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.TALK.LIST
+                requiredPermission: PERMISSIONS.TALKS.LIST
             }
         },
         {
@@ -125,7 +125,7 @@ export default new Router({
             component: Talks,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.TALK.LIST
+                requiredPermission: PERMISSIONS.TALKS.LIST
             }
         },
         {
@@ -134,7 +134,7 @@ export default new Router({
             component: Talk,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.TALK.LIST
+                requiredPermission: PERMISSIONS.TALKS.DETAILS
             }
         },
         {
@@ -152,7 +152,7 @@ export default new Router({
             component: Meetups,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.MEETUP.LIST
+                requiredPermission: PERMISSIONS.MEETUPS.LIST
             }
         },
         {
@@ -161,7 +161,7 @@ export default new Router({
             component: MeetupsFind,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.MEETUP.FIND
+                requiredPermission: PERMISSIONS.MEETUPS.FIND
             }
         },
         {
@@ -170,7 +170,7 @@ export default new Router({
             component: MeetupsApplied,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.MEETUP.FIND
+                requiredPermission: PERMISSIONS.MEETUPS.DETAILS
             }
         },
         {
@@ -179,16 +179,16 @@ export default new Router({
             component: MeetupsAccepted,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.MEETUP.FIND
+                requiredPermission: PERMISSIONS.SUBMISSIONS.APPROVE
             }
         },
         {
-            path: "/meetup/:meetupId",
+            path: "/meetups/:meetupId",
             name: "MeetupDetails",
             component: MeetupDetails,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.MEETUP.DETAILS
+                requiredPermission: PERMISSIONS.MEETUPS.DETAILS
             }
         },
         {
@@ -197,7 +197,7 @@ export default new Router({
             component: Reports,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.REPORT.ADD
+                requiredPermission: PERMISSIONS.REPORTS.LIST_OWN
             }
         },
         {
@@ -206,7 +206,7 @@ export default new Router({
             component: ReportsAll,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.REPORT.READ
+                requiredPermission: PERMISSIONS.REPORTS.LIST_ANY
             }
         },
         {
@@ -215,7 +215,7 @@ export default new Router({
             component: ReportEdit,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.REPORT.ADD
+                requiredPermission: PERMISSIONS.REPORTS.ADD
             }
         },
         {
@@ -224,7 +224,7 @@ export default new Router({
             component: ReportRead,
             beforeEnter: requireAuth,
             meta: {
-                requiredPermission: PERMISSIONS.REPORT.READ
+                requiredPermission: PERMISSIONS.REPORTS.DETAILS
             }
         },
         {

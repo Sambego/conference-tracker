@@ -38,7 +38,7 @@ module.exports = app => {
     app.get(
         "/api/reports", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.REPORTS.READ)
+            permissions.guard.check(permissions.permissions.REPORTS.LIST_ANY)
         ],
         handleGetReports
     );

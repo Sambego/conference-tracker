@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken, getUserParam } from "./auth";
 
-const BASE_URL = "https://conf-tracker.herokuapp.com";
-// const BASE_URL = "http://localhost:3333";
+// const BASE_URL = "https://conf-tracker.herokuapp.com";
+const BASE_URL = "http://localhost:3333";
 
 function getHeaders() {
     const authToken = getAccessToken();
@@ -70,7 +70,7 @@ function updateTalk(talkId, data) {
 }
 
 function getMySubmissions(conferenceId) {
-    const url = `${BASE_URL}/api/conferences/${conferenceId}/submissions`;
+    const url = `${BASE_URL}/api/submissions/conference/${conferenceId}`;
     return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
@@ -111,7 +111,7 @@ function getMeetups() {
 }
 
 function getMeetup(id) {
-    const url = `${BASE_URL}/api/meetup/${id}`;
+    const url = `${BASE_URL}/api/meetups/${id}`;
     return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
@@ -123,22 +123,22 @@ function applyMeetup(meetup, start, end) {
         name: meetup.name,
         location: meetup.localized_location
     };
-    const url = `${BASE_URL}/api/meetup/apply`;
+    const url = `${BASE_URL}/api/meetups/apply`;
     return axios.post(url, data, getHeaders()).then(resp => resp.data);
 }
 
 function droppedMeetup(id) {
-    const url = `${BASE_URL}/api/meetup/${id}/dropped/`;
+    const url = `${BASE_URL}/api/meetups/${id}/dropped/`;
     return axios.post(url, {}, getHeaders()).then(resp => resp.data);
 }
 
 function rejectedMeetup(id) {
-    const url = `${BASE_URL}/api/meetup/${id}/rejected/`;
+    const url = `${BASE_URL}/api/meetups/${id}/rejected/`;
     return axios.post(url, {}, getHeaders()).then(resp => resp.data);
 }
 
 function confirmMeetup(id, data) {
-    const url = `${BASE_URL}/api/meetup/approved/${id}`;
+    const url = `${BASE_URL}/api/meetups/approved/${id}`;
     return axios.put(url, data, getHeaders()).then(resp => resp.data);
 }
 

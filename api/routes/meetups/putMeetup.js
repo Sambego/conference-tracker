@@ -46,7 +46,7 @@ module.exports = app => {
     app.put(
         "/api/meetups/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.MEETUPS.DETAILS)
+            permissions.guard.check(permissions.permissions.MEETUPS.UPDATE)
         ],
         handlePutMeetup
     );

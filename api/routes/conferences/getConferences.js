@@ -43,7 +43,7 @@ module.exports = app => {
     app.get(
         "/api/conferences", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCE.LIST)
+            permissions.guard.check(permissions.permissions.CONFERENCES.LIST)
         ],
         handleGetConferences
     );

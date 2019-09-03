@@ -22,7 +22,7 @@ module.exports = app => {
     app.post(
         "/api/conferences", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCE.ADD)
+            permissions.guard.check(permissions.permissions.CONFERENCES.ADD)
         ],
         handlePostConference
     );

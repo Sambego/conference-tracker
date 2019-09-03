@@ -37,7 +37,11 @@
               >Hide Rejected</b-form-checkbox>
             </b-col>
             <b-col cols="4">
-              <conference-add-modal @conferenceAdded="getConferences()"></conference-add-modal>
+              {{permissions.addConference}}
+              <conference-add-modal
+                v-if="permissions.addConference"
+                @conferenceAdded="getConferences()"
+              ></conference-add-modal>
             </b-col>
           </b-row>
         </b-card>

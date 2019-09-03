@@ -11,10 +11,12 @@
         <b-nav-item v-if="permissions.showUpcomingLink" to="/upcoming">Upcoming</b-nav-item>
         <b-nav-item-dropdown v-if="permissions.showTalkLink" to="/talks">
           <template slot="button-content">Talks</template>
-          <b-dropdown-item v-if="permissions.showTalkLink" to="/user/talks">My talks</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showOwnTalkLink" to="/user/talks">My talks</b-dropdown-item>
           <b-dropdown-item v-if="permissions.showTalkLink" to="/talks">All talks</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item-dropdown v-if="permissions.showReportLink || permissions.showReportsLink">
+        <b-nav-item-dropdown
+          v-if="permissions.showDueReportsLink || permissions.showAllReportsLink"
+        >
           <template slot="button-content">
             Post-Event Reports
             <b-badge
@@ -23,8 +25,8 @@
               v-if="notifications.reports > 0"
             >{{ notifications.reports }}</b-badge>
           </template>
-          <b-dropdown-item v-if="permissions.showReportLink" to="/reports">Add reports</b-dropdown-item>
-          <b-dropdown-item v-if="permissions.showReportsLink" to="/reports/all">View all reports</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showDueReportsLink" to="/reports">Add reports</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showAllReportsLink" to="/reports/all">View all reports</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item v-if="permissions.showStatLink" to="/stats">Stats</b-nav-item>
       </b-navbar-nav>

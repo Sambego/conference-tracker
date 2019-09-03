@@ -27,7 +27,7 @@ module.exports = app => {
     app.put(
         "/api/conferences/:id", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCE.ADD)
+            permissions.guard.check(permissions.permissions.CONFERENCES.UPDATE)
         ],
         handlePutConference
     );

@@ -40,7 +40,7 @@ module.exports = app => {
     app.get(
         "/api/reports/todo", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.REPORTS.DUE)
+            permissions.guard.check(permissions.permissions.REPORTS.LIST_OWN)
         ],
         handleGetReportsTodo
     );
