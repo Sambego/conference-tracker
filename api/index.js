@@ -32,7 +32,7 @@ require("./routes/stats")(app);
 require("./routes/other")(app);
 
 app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/dist/index.html");
+    res.sendFile(__dirname + "../dist/index.html");
 });
 
 app.listen(PORT, () => {
