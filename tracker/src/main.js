@@ -14,13 +14,12 @@ import router from "./router";
 
 Vue.use(BootstrapVue);
 Vue.use(VueClipboard);
-
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
-  el: "#app",
-  router,
-  components: { App },
-  template: "<App/>"
+    el: "#app",
+    router,
+    components: { App },
+    template: "<App/>"
 });

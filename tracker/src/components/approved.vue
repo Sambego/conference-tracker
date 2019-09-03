@@ -2,10 +2,12 @@
   <div class="approved">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <b-row>
+      <b-col>&nbsp;</b-col>
+    </b-row>
 
     <h2>🎉 Congratulations ! 🎉</h2>
-    <h3> You have been accepted to {{ conference.name }} </h3>
+    <h3>You have been accepted to {{ conference.name }}</h3>
 
     <b-row>
       <b-col cols="6" offset="3">
@@ -18,9 +20,14 @@
       <b-col cols="6" offset="3">
         <b-input-group>
           <b-input-group-prepend is-text>
-            <input type="checkbox" aria-label="Checkbox if approved" :id="'talk-' + talk.id" v-model="talk.approved">
+            <input
+              type="checkbox"
+              aria-label="Checkbox if approved"
+              :id="'talk-' + talk.id"
+              v-model="talk.approved"
+            />
           </b-input-group-prepend>
-          <b-form-input type="text" aria-label="Title of talk" readonly :value="talk.title"/>
+          <b-form-input type="text" aria-label="Title of talk" readonly :value="talk.title" />
         </b-input-group>
       </b-col>
     </b-row>
@@ -29,15 +36,23 @@
 
     <b-row>
       <b-col cols="6" offset="3">
-        <b-form-group id="overview" label="Overview:" label-for="overview" >
-          <b-form-textarea id="overview" v-model="conference.overview" :rows="6" ></b-form-textarea>
+        <b-form-group id="overview" label="Overview:" label-for="overview">
+          <b-form-textarea id="overview" v-model="conference.overview" :rows="6"></b-form-textarea>
         </b-form-group>
-        <b-form-group id="attendee_goal" label="Expected Developers Reach:" label-for="attendee_goal" >
+        <b-form-group
+          id="attendee_goal"
+          label="Expected Developers Reach:"
+          label-for="attendee_goal"
+        >
           <b-form-input id="attendee_goal" type="number" v-model="conference.attendeeGoal" />
         </b-form-group>
-        <b-form-group id="relationship_goal" label="Expected New Relationships:" label-for="relationship_goal" >
-        <b-form-input id="relationship_goal" type="number" v-model="conference.relationshipGoal" />
-      </b-form-group>
+        <b-form-group
+          id="relationship_goal"
+          label="Expected New Relationships:"
+          label-for="relationship_goal"
+        >
+          <b-form-input id="relationship_goal" type="number" v-model="conference.relationshipGoal" />
+        </b-form-group>
       </b-col>
     </b-row>
 
@@ -51,7 +66,12 @@
 
 <script>
 import AppNav from "./AppNav";
-import { getMySubmissions, getConference, addApprovals, updateConference } from "../utils/conf-api";
+import {
+  getMySubmissions,
+  getConference,
+  addApprovals,
+  updateConference
+} from "../utils/conf-api";
 
 export default {
   name: "submitted",
@@ -68,12 +88,12 @@ export default {
   },
   methods: {
     getMySubmittedTalks() {
-      getMySubmissions(this.$route.params.conferenceId).then((talks) => {
+      getMySubmissions(this.$route.params.conferenceId).then(talks => {
         this.talks = talks;
       });
     },
     getConferenceDetails() {
-      getConference(this.$route.params.conferenceId).then((conf) => {
+      getConference(this.$route.params.conferenceId).then(conf => {
         this.conference = {
           ...conf,
           overview: `${conf.name} is a [community run, commercial, ...] [developer conference, trade show, ...] focussing on [web technologies, JavaScript, APIs, ...].\n\n[Extra details about the conference]` // eslint-disable-line max-len
@@ -81,18 +101,25 @@ export default {
       });
     },
     saveApprovals() {
-      const approvals = this.talks.filter(talk => talk.approved).map(approval => approval._id);
-      updateConference(this.$route.params.conferenceId, this.conference).then(() => {
-        const result = addApprovals(this.$route.params.conferenceId, approvals);
-        return result;
-      }).then(() => this.$router.push("/conferences"));
+      const approvals = this.talks
+        .filter(talk => talk.approved)
+        .map(approval => approval._id);
+      updateConference(this.$route.params.conferenceId, this.conference)
+        .then(() => {
+          const result = addApprovals(
+            this.$route.params.conferenceId,
+            approvals
+          );
+          return result;
+        })
+        .then(() => this.$router.push("/conferences"));
     }
   }
 };
 </script>
 
 <style scoped>
-  .row {
-    margin-top: 3px;
-  }
+.row {
+  margin-top: 3px;
+}
 </style>

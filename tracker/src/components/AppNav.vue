@@ -1,61 +1,47 @@
 <template>
   <b-navbar toggleable="md" type="dark" variant="info">
-
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
     <b-navbar-brand href="#">ConfTracker</b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
-
       <b-navbar-nav>
         <b-nav-item v-if="permissions.showConferenceLink" to="/conferences">Conferences</b-nav-item>
         <b-nav-item v-if="permissions.showMeetupLink" to="/meetups">Meetups</b-nav-item>
         <b-nav-item v-if="permissions.showUpcomingLink" to="/upcoming">Upcoming</b-nav-item>
         <b-nav-item-dropdown v-if="permissions.showTalkLink" to="/talks">
-          <template slot="button-content">
-            Talks
-          </template>
-          <b-dropdown-item v-if="permissions.showTalkLink"  to="/user/talks">
-            My talks
-          </b-dropdown-item>
-          <b-dropdown-item v-if="permissions.showTalkLink" to="/talks">
-            All talks
-          </b-dropdown-item>
+          <template slot="button-content">Talks</template>
+          <b-dropdown-item v-if="permissions.showTalkLink" to="/user/talks">My talks</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showTalkLink" to="/talks">All talks</b-dropdown-item>
         </b-nav-item-dropdown>
-        <b-nav-item-dropdown v-if="permissions.showReportLink || permissions.showReportsLink" >
+        <b-nav-item-dropdown v-if="permissions.showReportLink || permissions.showReportsLink">
           <template slot="button-content">
             Post-Event Reports
-            <b-badge pill variant="warning" v-if="notifications.reports > 0">{{ notifications.reports }}</b-badge>
+            <b-badge
+              pill
+              variant="warning"
+              v-if="notifications.reports > 0"
+            >{{ notifications.reports }}</b-badge>
           </template>
-          <b-dropdown-item v-if="permissions.showReportLink" to="/reports">
-            Add reports
-          </b-dropdown-item>
-          <b-dropdown-item v-if="permissions.showReportsLink" to="/reports/all">
-            View all reports
-          </b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showReportLink" to="/reports">Add reports</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showReportsLink" to="/reports/all">View all reports</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item v-if="permissions.showStatLink" to="/stats">Stats</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-
         <b-nav-item-dropdown right>
           <!-- Using button-content slot -->
           <template slot="button-content">
-            <img :src="getUserImage" class="profile-pic"/>
+            <img :src="getUserImage" class="profile-pic" />
           </template>
-          <b-dropdown-item v-if="permissions.showProfileLink" to="/profile">
-            Profile
-          </b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showProfileLink" to="/profile">Profile</b-dropdown-item>
           <b-dropdown-item href="#" @click="handleLogout()">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
-
       </b-navbar-nav>
-
     </b-collapse>
   </b-navbar>
-
 </template>
 
 <script>
@@ -66,7 +52,7 @@ import { getNotifications } from "../utils/conf-api";
 export default {
   name: "app-nav",
   mounted() {
-    getNotifications().then((notifications) => {
+    getNotifications().then(notifications => {
       this.notifications = notifications;
     });
   },

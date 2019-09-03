@@ -1,7 +1,5 @@
 <template>
-    <div>
-      Reticulating splines...
-    </div>
+  <div>Reticulating splines...</div>
 </template>
 
 <script>
@@ -20,7 +18,7 @@ export default {
         name: user.name,
         picture: user.picture,
         email: user.email
-      }).then(() => {
+      }).then(user => {
         this.$router.push("/upcoming");
       });
     });
@@ -29,5 +27,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

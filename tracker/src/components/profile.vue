@@ -2,24 +2,30 @@
   <div class="profile">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <b-row>
+      <b-col>&nbsp;</b-col>
+    </b-row>
 
     <h2>Profile</h2>
 
-    <b-row><b-col></b-col></b-row>
+    <b-row>
+      <b-col></b-col>
+    </b-row>
 
-    <b-row><b-col class="text-right">
-      <b-btn class="btn btn-primary" @click="switchToEditMode" v-if="!editMode">Edit</b-btn>
-      <b-btn class="btn btn-success" @click="saveChanges" v-if="editMode">Save</b-btn>
-      <b-btn class="btn btn-danger" @click="cancelChanges" v-if="editMode">Cancel</b-btn>
-    </b-col></b-row>
+    <b-row>
+      <b-col class="text-right">
+        <b-btn class="btn btn-primary" @click="switchToEditMode" v-if="!editMode">Edit</b-btn>
+        <b-btn class="btn btn-success" @click="saveChanges" v-if="editMode">Save</b-btn>
+        <b-btn class="btn btn-danger" @click="cancelChanges" v-if="editMode">Cancel</b-btn>
+      </b-col>
+    </b-row>
 
     <div v-if="editMode" class="profileForm">
       <b-row>
         <b-col>
           <b-form>
-            <b-form-group id="bio" label="Bio:" label-for="bio" >
-              <b-form-textarea id="bio" v-model="bio" :rows="6" ></b-form-textarea>
+            <b-form-group id="bio" label="Bio:" label-for="bio">
+              <b-form-textarea id="bio" v-model="bio" :rows="6"></b-form-textarea>
             </b-form-group>
           </b-form>
         </b-col>
@@ -37,7 +43,10 @@
               aria-describedby="communityUsernameFormatterHelp"
             ></b-form-input>
             <b-form-text id="communityUsernameFormatterHelp">
-              Enter you Auth0 Community (<a href="https://community.auth0.com">https://community.auth0.com</a>)
+              Enter you Auth0 Community (
+              <a
+                href="https://community.auth0.com"
+              >https://community.auth0.com</a>)
               username including the "@"
             </b-form-text>
           </b-form>
@@ -70,7 +79,6 @@
         </b-col>
       </b-row>
     </div>
-
   </div>
 </template>
 
@@ -95,7 +103,10 @@ export default {
   },
   methods: {
     saveChanges() {
-      saveLocalUser({ bio: this.bio, communityUsername: this.communityUsername }).then(() => {
+      saveLocalUser({
+        bio: this.bio,
+        communityUsername: this.communityUsername
+      }).then(user => {
         this.editMode = false;
       });
     },
@@ -107,7 +118,7 @@ export default {
       this.editMode = true;
     },
     getProfile() {
-      getLocalUser().then((profile) => {
+      getLocalUser().then(profile => {
         this.bio = profile.bio;
         this.communityUsername = profile.communityUsername;
       });
@@ -117,16 +128,17 @@ export default {
 </script>
 
 <style scoped>
-  .label {
-    font-weight: bold;
-  }
+.label {
+  font-weight: bold;
+}
 
-  .talkForm, .talkData {
-    text-align: left;
-  }
+.talkForm,
+.talkData {
+  text-align: left;
+}
 
-  .copyBtn {
-    cursor: pointer;
-    font-size: 16px;
-  }
+.copyBtn {
+  cursor: pointer;
+  font-size: 16px;
+}
 </style>

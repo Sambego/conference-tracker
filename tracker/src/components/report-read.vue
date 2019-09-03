@@ -2,9 +2,14 @@
   <div class="report">
     <app-nav></app-nav>
 
-    <b-row><b-col>&nbsp;</b-col></b-row>
+    <b-row>
+      <b-col>&nbsp;</b-col>
+    </b-row>
 
-    <h2>Post-Event Report<span v-if="report.eventName"> for {{ report.eventName }}</span></h2>
+    <h2>
+      Post-Event Report
+      <span v-if="report.eventName">for {{ report.eventName }}</span>
+    </h2>
 
     <b-row>
       <b-col cols="6" offset="3">
@@ -31,6 +36,10 @@
           <div v-if="report.impressions">
             <h2>Impressions</h2>
             <p>{{report.impressions}}</p>
+          </div>
+          <div v-if="report.notes">
+            <h2>Notes</h2>
+            <p>{{report.notes}}</p>
           </div>
         </b-card>
       </b-col>
@@ -60,7 +69,7 @@ export default {
     },
     getReport() {
       if (this.$route.params.reportId) {
-        getReport(this.$route.params.reportId).then((report) => {
+        getReport(this.$route.params.reportId).then(report => {
           this.report = { ...report };
         });
       }
@@ -70,5 +79,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
