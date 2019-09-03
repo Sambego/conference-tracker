@@ -107,7 +107,7 @@ export default {
       this.editMode = true;
     },
     getProfile() {
-      getLocalUser().then(profile => {
+      getLocalUser().then((profile) => {
         this.bio = profile.bio;
         this.communityUsername = profile.communityUsername;
       });

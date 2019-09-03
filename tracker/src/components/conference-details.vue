@@ -103,12 +103,12 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then(conference => {
+      getConference(this.$route.params.conferenceId).then((conference) => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then(user => {
+      getLocalUser().then((user) => {
         console.log(user);
         this.user = user;
       });
@@ -122,7 +122,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then(confirm => {
+        .then((confirm) => {
           if (confirm) {
             deleteSubmission(id);
             this.getConference();

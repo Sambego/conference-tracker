@@ -191,7 +191,7 @@ export default {
       return dateFormat(d);
     },
     getConferences() {
-      getConferences().then(conferences => {
+      getConferences().then((conferences) => {
         this.conferences = conferences;
       });
     },
@@ -207,7 +207,7 @@ export default {
             okTitle: "Yes, delete the conference"
           }
         )
-        .then(confirm => {
+        .then((confirm) => {
           if (confirm) {
             deleteConference(id).then(() => {
               this.getConferences();

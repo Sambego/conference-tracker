@@ -119,15 +119,15 @@ export default {
   },
   mounted() {
     this.getEventDetails();
-    getRegions().then(regions => {
+    getRegions().then((regions) => {
       regions.map(r => this.regions.push({ value: r.id, text: r.region }));
       this.report.regionId = 1;
     });
-    getEventSources().then(sources => {
+    getEventSources().then((sources) => {
       sources.map(s => this.sources.push({ value: s.id, text: s.source }));
       this.report.sourceId = 1;
     });
-    getEventTypes().then(types => {
+    getEventTypes().then((types) => {
       types.map(t => this.types.push({ value: t.id, text: t.type }));
       this.report.typeId = 1;
     });
@@ -138,7 +138,7 @@ export default {
         getEventDetails(
           this.$route.params.type,
           this.$route.params.eventId
-        ).then(event => {
+        ).then((event) => {
           this.event = event;
           this.report.eventName = event.name;
           this.report.regionId = event.regionId;

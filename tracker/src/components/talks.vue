@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getTalks() {
-      getTalks().then(talks => {
+      getTalks().then((talks) => {
         this.talks = talks;
       });
     }

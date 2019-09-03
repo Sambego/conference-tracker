@@ -67,7 +67,7 @@ export default {
     },
     getReport() {
       if (this.$route.params.reportId) {
-        getReport(this.$route.params.reportId).then(report => {
+        getReport(this.$route.params.reportId).then((report) => {
           this.report = { ...report };
         });
       }

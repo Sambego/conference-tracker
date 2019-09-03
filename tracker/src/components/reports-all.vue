@@ -62,7 +62,7 @@ export default {
       return dateFormat(d);
     },
     getReports() {
-      getAllReports().then(reports => {
+      getAllReports().then((reports) => {
         this.reports = reports;
       });
     }

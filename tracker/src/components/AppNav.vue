@@ -54,7 +54,7 @@ import { getNotifications } from "../utils/conf-api";
 export default {
   name: "app-nav",
   mounted() {
-    getNotifications().then(notifications => {
+    getNotifications().then((notifications) => {
       this.notifications = notifications;
     });
   },

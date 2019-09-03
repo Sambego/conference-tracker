@@ -97,10 +97,10 @@ export default {
       size: { height: "300px" },
       data: { type: "pie", columns: [] }
     });
-    getStats().then(stats => {
+    getStats().then((stats) => {
       this.stats = stats;
       const monthlyStats = [["Total"], ["Americas"], ["EMEA"], ["APAC"]];
-      stats.monthly.map(s => {
+      stats.monthly.map((s) => {
         monthlyStats[0].push(s.total);
         monthlyStats[1].push(s.americas);
         monthlyStats[2].push(s.emea);

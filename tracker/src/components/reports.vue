@@ -83,7 +83,7 @@ export default {
       return dateFormat(d);
     },
     getReports() {
-      getReportsToDo().then(reports => {
+      getReportsToDo().then((reports) => {
         this.reports = reports;
       });
     }
