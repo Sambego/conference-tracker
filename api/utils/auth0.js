@@ -5,6 +5,7 @@ const helpers = require("./helpers");
 
 let creds;
 
+console.log("----", process.env.NODE_ENV);
 if (process.env.NODE_ENV === "prod") {
     creds = process.env;
 } else {
