@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const jwtDecode = require("jwt-decode");
-const credentials = require("../credentials");
-const CONNECTION_STRING = credentials.DB_CONN_STRING;
+const auth0 = require("../utils/auth0");
+const CONNECTION_STRING = auth0.credentials.DB_CONN_STRING;
 const connection = mysql.createConnection(CONNECTION_STRING);
 
 const getUserId = headers => {

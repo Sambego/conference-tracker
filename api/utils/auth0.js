@@ -3,14 +3,8 @@ const cloudinary = require("cloudinary");
 const puppeteer = require("puppeteer");
 const helpers = require("./helpers");
 
-let creds;
-
-console.log("----", process.env.NODE_ENV);
-if (process.env.NODE_ENV === "prod") {
-    creds = process.env;
-} else {
-    creds = require("../credentials");
-}
+const credentials =
+    process.env.NODE_ENV === "prod" ? process.env : require("../credentials");
 
 function encodeData(data) {
     for (let key in data) {
@@ -108,9 +102,9 @@ function createSLK(c, t, s) {
             console.log("We got a screenshot");
             //Upload to cloudinary
             cloudinary.config({
-                cloud_name: creds.CLOUDINARY_CLOUD_NAME,
-                api_key: creds.CLOUDINARY_API_KEY,
-                api_secret: creds.CLOUDINARY_API_SECRET
+                cloud_name: credentials.CLOUDINARY_CLOUD_NAME,
+                api_key: credentials.CLOUDINARY_API_KEY,
+                api_secret: credentials.CLOUDINARY_API_SECRET
             });
 
             return new Promise((resolve, reject) => {
@@ -279,5 +273,6 @@ function postConferenceReport(report) {
 module.exports = {
     conferenceApproved,
     meetupApproved,
-    postConferenceReport
+    postConferenceReport,
+    credentials
 };

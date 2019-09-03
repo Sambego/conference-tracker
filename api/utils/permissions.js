@@ -1,7 +1,7 @@
 const jwt = require("express-jwt");
 const jwks = require("jwks-rsa");
 const expressPermissions = require("express-jwt-permissions");
-const credentials = require("../credentials");
+const auth0 = require("../utils/auth0");
 
 const permissions = {
     CONFERENCE: {
@@ -50,10 +50,10 @@ const authCheck = jwt({
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://${credentials.DOMAIN}/.well-known/jwks.json`
+        jwksUri: `https://${auth0.credentials.DOMAIN}/.well-known/jwks.json`
     }),
-    audience: credentials.AUDIENCE,
-    issuer: `https://${credentials.DOMAIN}/`,
+    audience: auth0.credentials.AUDIENCE,
+    issuer: `https://${auth0.credentials.DOMAIN}/`,
     algorithms: ["RS256"]
 });
 
