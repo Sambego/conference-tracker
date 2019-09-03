@@ -102,7 +102,7 @@ import { getUpcomingConferences } from "../utils/conf-api";
 import { dateFormat } from "../utils/helpers";
 
 const getEventsByRegion = (events, region) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!region) {
       return true;
     }
@@ -110,7 +110,7 @@ const getEventsByRegion = (events, region) =>
     return event.regionId === region;
   });
 const getEventsByType = (events, type) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!type) {
       return true;
     }
@@ -118,7 +118,7 @@ const getEventsByType = (events, type) =>
     return event.type === type;
   });
 const getEventsByName = (events, searchQuery) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!searchQuery) {
       return true;
     }
@@ -160,7 +160,7 @@ export default {
       return dateFormat(d);
     },
     getUpcoming() {
-      getUpcomingConferences().then(conferences => {
+      getUpcomingConferences().then((conferences) => {
         this.conferences = conferences;
       });
     }

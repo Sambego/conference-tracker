@@ -106,7 +106,7 @@ export default {
       saveLocalUser({
         bio: this.bio,
         communityUsername: this.communityUsername
-      }).then(user => {
+      }).then(() => {
         this.editMode = false;
       });
     },
@@ -118,7 +118,7 @@ export default {
       this.editMode = true;
     },
     getProfile() {
-      getLocalUser().then(profile => {
+      getLocalUser().then((profile) => {
         this.bio = profile.bio;
         this.communityUsername = profile.communityUsername;
       });

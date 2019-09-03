@@ -85,7 +85,7 @@ import {
   deleteSubmission
 } from "../utils/conf-api";
 import { dateFormat, expensesCovered } from "../utils/helpers";
-import { isPermissionEnabled, PERMISSIONS, isAdmin } from "../utils/acl";
+import { isPermissionEnabled, PERMISSIONS } from "../utils/acl";
 
 export default {
   components: { AppNav },
@@ -100,8 +100,7 @@ export default {
       ),
       canDeleteAnySubMission: isPermissionEnabled(
         PERMISSIONS.SUBMISSIONS.DELETE_ANY
-      ),
-      isAdmin: isAdmin()
+      )
     };
   },
   mounted() {
@@ -116,12 +115,12 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then(conference => {
+      getConference(this.$route.params.conferenceId).then((conference) => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then(user => {
+      getLocalUser().then((user) => {
         console.log(user);
         this.user = user;
       });
@@ -135,7 +134,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then(confirm => {
+        .then((confirm) => {
           if (confirm) {
             deleteSubmission(id);
             this.getConference();

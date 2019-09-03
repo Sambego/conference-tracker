@@ -72,20 +72,20 @@ export default {
   mounted() {
     this.getMeetup();
     this.getMyTalks();
-    getRegions().then(regions => {
+    getRegions().then((regions) => {
       regions.map(r => this.regions.push({ value: r.id, text: r.region }));
       this.meetup.regionId = 1;
     });
   },
   methods: {
     getMyTalks() {
-      getMyTalks().then(talks => {
+      getMyTalks().then((talks) => {
         this.talks = talks;
         this.talkOptions = talks.map(t => ({ value: t._id, text: t.title }));
       });
     },
     getMeetup() {
-      getMeetup(this.$route.params.meetupId).then(meetup => {
+      getMeetup(this.$route.params.meetupId).then((meetup) => {
         this.meetup = meetup;
       });
     },

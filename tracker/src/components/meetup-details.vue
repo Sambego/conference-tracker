@@ -54,7 +54,7 @@ export default {
       return dateFormat(d);
     },
     getMeetup() {
-      getMeetup(this.$route.params.meetupId).then(meetup => {
+      getMeetup(this.$route.params.meetupId).then((meetup) => {
         this.meetup = meetup;
         this.talk = meetup.talk;
         this.user = meetup.user;

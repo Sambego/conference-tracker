@@ -18,7 +18,7 @@ export default {
         name: user.name,
         picture: user.picture,
         email: user.email
-      }).then(user => {
+      }).then(() => {
         this.$router.push("/upcoming");
       });
     });

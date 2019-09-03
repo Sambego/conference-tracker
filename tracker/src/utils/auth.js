@@ -7,7 +7,6 @@ import creds from "./credentials";
 
 const ID_TOKEN_KEY = "id_token";
 const ACCESS_TOKEN_KEY = "access_token";
-const LOCAL_USER = "local_user";
 
 const CLIENT_ID = creds.CLIENT_ID;
 const DOMAIN = creds.DOMAIN;

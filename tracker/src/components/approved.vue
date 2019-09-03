@@ -88,12 +88,12 @@ export default {
   },
   methods: {
     getMySubmittedTalks() {
-      getMySubmissions(this.$route.params.conferenceId).then(talks => {
+      getMySubmissions(this.$route.params.conferenceId).then((talks) => {
         this.talks = talks;
       });
     },
     getConferenceDetails() {
-      getConference(this.$route.params.conferenceId).then(conf => {
+      getConference(this.$route.params.conferenceId).then((conf) => {
         this.conference = {
           ...conf,
           overview: `${conf.name} is a [community run, commercial, ...] [developer conference, trade show, ...] focussing on [web technologies, JavaScript, APIs, ...].\n\n[Extra details about the conference]` // eslint-disable-line max-len
