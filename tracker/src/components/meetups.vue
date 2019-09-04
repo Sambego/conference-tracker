@@ -3,27 +3,22 @@
     <app-nav></app-nav>
 
     <div class="container-fluid pt-5">
-      <h2>Welcome to the great list of Meetups</h2>
-      <h5>
-        List of Meetups
-        <em>I</em> applied to
-      </h5>
-
-      <b-row class="mb-4">
-        <b-col>
-          <b-row>
-            <b-col class="text-right" cols="4" offset="8">
-              <router-link to="/meetups/find">
-                <b-btn v-if="permissions.findMeetup" class="btn btn-info">Find Meetups</b-btn>
-              </router-link>
-            </b-col>
-          </b-row>
+      <b-row>
+        <b-col class="text-right mb-3">
+          <router-link to="/meetups/find" class="d-inline text-right">
+            <b-btn v-if="permissions.findMeetup" class="btn btn-info">Find Meetups</b-btn>
+          </router-link>
         </b-col>
       </b-row>
-
       <b-row>
         <b-col>
           <b-card no-body>
+            <b-card-header>
+              <span>
+                Welcome to the great list of Meetups
+                <strong>you</strong> applied to
+              </span>
+            </b-card-header>
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>
@@ -98,7 +93,7 @@ export default {
       return dateFormat(d);
     },
     getMeetups() {
-      getMeetups().then((meetups) => {
+      getMeetups().then(meetups => {
         this.meetups = meetups;
       });
     },
