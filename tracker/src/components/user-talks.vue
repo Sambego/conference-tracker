@@ -14,7 +14,6 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>All your talks</b-card-header>
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>

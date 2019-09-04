@@ -28,7 +28,6 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>All available talks</b-card-header>
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>
@@ -95,9 +94,7 @@ export default {
         this.talks = talks;
         this.authors = [
           "---- All Authors ----",
-          ...new Set(
-            this.talks.map(talk => talk.name)
-          )
+          ...new Set(this.talks.map(talk => talk.name))
         ].sort();
       });
     }

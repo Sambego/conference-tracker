@@ -7,7 +7,6 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>All reports</b-card-header>
             <table class="table table-striped table-borderless mb-0" v-if="reports.length > 0">
               <thead>
                 <tr>

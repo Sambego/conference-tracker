@@ -37,7 +37,6 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>All available conferences</b-card-header>
             <table class="table table-borderless table-striped mb-0">
               <thead>
                 <tr>

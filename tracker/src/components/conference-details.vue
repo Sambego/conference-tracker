@@ -6,7 +6,7 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <h4 slot="header" class="mb-0">{{conference.name}}</h4>
+            <b-card-header>{{conference.name}}</b-card-header>
             <b-card-body>
               <p>
                 This event will be held in {{ conference.city }} from {{ dateFormat(conference.startDate) }}
@@ -21,7 +21,7 @@
         </b-col>
         <b-col>
           <b-card no-body>
-            <h4 slot="header" class="mb-0">Submissions</h4>
+            <b-card-header>Submissions</b-card-header>
 
             <table class="table table-striped mb-0">
               <thead>

@@ -24,7 +24,6 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>All available meetups</b-card-header>
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>
