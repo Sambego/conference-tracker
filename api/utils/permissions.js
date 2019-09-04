@@ -50,6 +50,11 @@ const permissions = {
     },
     STATS: {
         READ: "stats:read"
+    },
+    PERSONAS: {
+        LIST: "personas:list",
+        ADD: "personas:add",
+        UPDATE: "personas:update"
     }
 };
 

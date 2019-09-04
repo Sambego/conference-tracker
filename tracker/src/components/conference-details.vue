@@ -17,6 +17,13 @@
               <b-list-group-item>✈️ {{ expensesCovered(conference.travelCovered) }}</b-list-group-item>
               <b-list-group-item>🏨 {{ expensesCovered(conference.lodgingCovered) }}</b-list-group-item>
             </b-list-group>
+            <b-card-header v-if="conference.personas">Personas</b-card-header>
+            <b-list-group v-if="conference.personas" flush>
+              <b-list-group-item
+                v-for="persona in conference.personas"
+                :key="persona.id"
+              >{{persona.persona}}</b-list-group-item>
+            </b-list-group>
           </b-card>
         </b-col>
         <b-col>
@@ -103,13 +110,12 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then((conference) => {
+      getConference(this.$route.params.conferenceId).then(conference => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then((user) => {
-        console.log(user);
+      getLocalUser().then(user => {
         this.user = user;
       });
     },
@@ -122,7 +128,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then((confirm) => {
+        .then(confirm => {
           if (confirm) {
             deleteSubmission(id).then(() => {
               this.getConference();

@@ -2,7 +2,7 @@
   <b-navbar toggleable="md" type="dark" variant="info">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand href="#">ConfTracker</b-navbar-brand>
+    <b-navbar-brand href="/">ConfTracker</b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
@@ -54,7 +54,7 @@ import { getNotifications } from "../utils/conf-api";
 export default {
   name: "app-nav",
   mounted() {
-    getNotifications().then((notifications) => {
+    getNotifications().then(notifications => {
       this.notifications = notifications;
     });
   },

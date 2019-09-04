@@ -29,6 +29,7 @@ require("./api/routes/users")(app);
 require("./api/routes/talks")(app);
 require("./api/routes/reports")(app);
 require("./api/routes/stats")(app);
+require("./api/routes/personas")(app);
 require("./api/routes/other")(app);
 
 app.get("*", (req, res) => {

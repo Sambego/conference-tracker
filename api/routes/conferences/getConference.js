@@ -5,11 +5,12 @@ const handleGetConference = async(req, res) => {
     try {
         const conferenceSql = `SELECT *, id _id FROM conferences WHERE id = ?`;
         const submissionsSql = `SELECT s.*, t.title, u.name
-      FROM submissions s, talks t, users u
-      WHERE s.talkId = t.id AND s.userId = u.id AND s.conferenceId = ?`;
+            FROM submissions s, talks t, users u
+            WHERE s.talkId = t.id AND s.userId = u.id AND s.conferenceId = ?`;
 
         const conference = await query.once(conferenceSql, [req.params.id]);
         const submissions = await query.make(submissionsSql, [req.params.id]);
+
         const augmentedConference = {
             ...conference,
             submissions: submissions.map(s => ({
@@ -19,6 +20,14 @@ const handleGetConference = async(req, res) => {
                 id: s.id
             }))
         };
+
+        if (conference.personas && conference.personas.length > 0) {
+            const conferencePersonas = conference.personas.replace(/,\s*$/, "");
+            const personas = await query.make(
+                `SELECT * from personas where id IN(${conferencePersonas.split(",")})`, [conferencePersonas]
+            );
+            augmentedConference.personas = personas;
+        }
 
         console.log(`Getting conference with ID ${req.params.id}`);
         res.json(augmentedConference);

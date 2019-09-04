@@ -167,13 +167,28 @@
             </b-form-group>
           </b-col>
         </b-row>
+        <b-row>
+          <b-col cols="6">
+            <b-form-group label="Conference personas" label-for="personas">
+              <b-form-select
+                id="personas"
+                v-model="conference.personas"
+                :options="personas"
+                value-field="id"
+                text-field="persona"
+                multiple
+                class="mb-3"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
       </b-form>
     </b-modal>
   </span>
 </template>
 
 <script>
-import { addConference, getRegions } from "../utils/conf-api";
+import { addConference, getRegions, getPersonas } from "../utils/conf-api";
 import { EXPENSES_COVERED } from "../utils/helpers";
 
 export default {
@@ -191,33 +206,40 @@ export default {
         state: "",
         country: "",
         twitter: "",
-        regionId: 1
+        regionId: 1,
+        personas: []
       },
       regions: [],
       expensesOptions: [
         { value: EXPENSES_COVERED.NO, text: "No" },
         { value: EXPENSES_COVERED.YES, text: "Yes" },
         { value: EXPENSES_COVERED.TBD, text: "TBD / Not sure" }
-      ]
+      ],
+      personas: []
     };
   },
   mounted() {
-    getRegions().then((regions) => {
+    getRegions().then(regions => {
       regions.map(r => this.regions.push({ value: r.id, text: r.region }));
     });
+    this.getPersonas();
   },
   methods: {
     startDateChanged(event) {
-      if (!this.conference.endDate) { this.conference.endDate = event.target.value; }
+      if (!this.conference.endDate) {
+        this.conference.endDate = event.target.value;
+      }
     },
     handleOk() {
-      const formattedConference = Object.assign({}, this.conference);
-      formattedConference.startDate = new Date(
-        this.conference.startDate
-      ).getTime();
-      formattedConference.endDate = new Date(this.conference.endDate).getTime();
-      formattedConference.cfpDate = new Date(this.conference.cfpDate).getTime();
-      addConference(formattedConference);
+      addConference({
+        ...this.conference,
+        startDate: new Date(this.conference.startDate).getTime(),
+        endDate: new Date(this.conference.endDate).getTime(),
+        cfpDate: new Date(this.conference.cfpDate).getTime(),
+        personas: this.conference.personas.reduce((personas, persona) => {
+          return (personas += `${persona},`);
+        }, "")
+      });
       this.$emit("conferenceAdded", {});
     },
     onShown() {
@@ -234,6 +256,11 @@ export default {
     },
     handleSubmit() {
       // this.$refs.modal.hide();
+    },
+    getPersonas() {
+      getPersonas().then(personas => {
+        this.personas = personas;
+      });
     }
   }
 };
