@@ -3,108 +3,136 @@
     <app-nav></app-nav>
 
     <div class="container-fluid pt-5">
-      <h2>Upcoming Events</h2>
-
-      <b-row class="mb-4">
-        <b-col>
-          <b-card class="mt-3" header="Filters">
-            <b-row>
-              <b-col cols="3">
-                <b-form-group id="filter-type" label="Type" label-for="filter-type-select">
-                  <b-form-select id="filter-type-select" v-model="type" :options="filters.type"></b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col cols="3">
-                <b-form-group id="filter-region" label="Region" label-for="filter-region-select">
-                  <b-form-select
-                    id="filter-region-select"
-                    v-model="region"
-                    :options="filters.region"
-                  ></b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col cols="3">
-                <b-form-group
-                  id="filter-search"
-                  label="Search by name"
-                  label-for="filter-search-input"
-                >
-                  <b-form-input
-                    id="filter-search-input"
-                    v-model="searchQuery"
-                    placeholder="Enter a conference name"
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="3">
-                <b-form-group id="filter-persona" label="Persona" label-for="filter-persona-select">
-                  <b-form-select
-                    id="filter-persona-select"
-                    v-model="persona"
-                    :options="filters.personas"
-                    value-field="id"
-                    text-field="persona"
-                  ></b-form-select>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </b-card>
-        </b-col>
-      </b-row>
-
       <b-row>
-        <b-col>
-          <b-card no-body>
-            <table class="table table-striped table-borderless mb-0">
-              <thead>
-                <tr>
-                  <th scope="col">Event Name</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Dates</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">Speakers</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="conference in filteredEvents"
-                  :key="conference.type.substring(0,1) + conference._id"
-                >
-                  <td>
-                    <router-link
-                      v-if="conference.type=='CONFERENCE'"
-                      :to="'conference/' + conference._id"
-                    >{{ conference.name }}</router-link>
-                    <router-link
-                      v-if="conference.type=='MEETUP'"
-                      :to="'meetups/' + conference._id"
-                    >{{ conference.name }}</router-link>
-                    <a :href="conference.url" target="_blank">🔗</a>
-                  </td>
-                  <td>
-                    <b-badge pill variant="success" v-if="conference.type=='CONFERENCE'">Conference</b-badge>
-                    <b-badge pill variant="danger" v-if="conference.type=='MEETUP'">Meetup</b-badge>
-                  </td>
-                  <td>
-                    {{ dateFormat(conference.startDate) }}
-                    <span
-                      v-if="conference.endDate && conference.startDate != conference.endDate"
-                    >to {{ dateFormat(conference.endDate) }}</span>
-                  </td>
-                  <td>{{ conference.location }}</td>
-                  <td>{{ conference.speakers }}</td>
-                  <td>
-                    <ul class="list-inline mb-0 pb-0">
-                      <li class="list-inline-item" v-if="conference.type == 'CONFERENCE'">
-                        <a :href="conference.slkLink" target="_blank">SLK</a>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
+        <b-col md="3">
+          <b-row>
+            <b-col>
+              <b-card header="Filters">
+                <b-row>
+                  <b-col>
+                    <b-form-group
+                      id="filter-search"
+                      label="Search by name"
+                      label-for="filter-search-input"
+                    >
+                      <b-form-input
+                        id="filter-search-input"
+                        v-model="searchQuery"
+                        placeholder="Enter a conference name"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-form-group id="filter-type" label="Type" label-for="filter-type-select">
+                      <b-form-select id="filter-type-select" v-model="type" :options="filters.type"></b-form-select>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-form-group
+                      id="filter-region"
+                      label="Region"
+                      label-for="filter-region-select"
+                    >
+                      <b-form-select
+                        id="filter-region-select"
+                        v-model="region"
+                        :options="filters.region"
+                      ></b-form-select>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-form-group
+                      id="filter-persona"
+                      label="Persona"
+                      label-for="filter-persona-select"
+                    >
+                      <b-form-select
+                        id="filter-persona-select"
+                        v-model="persona"
+                        :options="filters.personas"
+                        value-field="id"
+                        text-field="persona"
+                      ></b-form-select>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <b-form-group
+                      id="filter-speaker"
+                      label="Speaker"
+                      label-for="filter-speaker-select"
+                    >
+                      <b-form-select
+                        id="filter-speaker-select"
+                        v-model="speaker"
+                        :options="filters.speakers"
+                      ></b-form-select>
+                    </b-form-group>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col md="9">
+          <b-row>
+            <b-col>
+              <b-card header="Upcoming events" no-body>
+                <table class="table table-striped table-borderless mb-0">
+                  <thead>
+                    <tr>
+                      <th scope="col">Event Name</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Dates</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">Speakers</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="conference in filteredEvents"
+                      :key="conference.type.substring(0,1) + conference._id"
+                    >
+                      <td>
+                        <router-link
+                          v-if="conference.type=='CONFERENCE'"
+                          :to="'conference/' + conference._id"
+                        >{{ conference.name }}</router-link>
+                        <router-link
+                          v-if="conference.type=='MEETUP'"
+                          :to="'meetups/' + conference._id"
+                        >{{ conference.name }}</router-link>
+                        <a :href="conference.url" target="_blank">🔗</a>
+                      </td>
+                      <td>
+                        <b-badge
+                          pill
+                          variant="success"
+                          v-if="conference.type=='CONFERENCE'"
+                        >Conference</b-badge>
+                        <b-badge pill variant="danger" v-if="conference.type=='MEETUP'">Meetup</b-badge>
+                      </td>
+                      <td>
+                        {{ dateFormat(conference.startDate) }}
+                        <span
+                          v-if="conference.endDate && conference.startDate != conference.endDate"
+                        >to {{ dateFormat(conference.endDate) }}</span>
+                      </td>
+                      <td>{{ conference.location }}</td>
+                      <td>{{ conference.speakers }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </b-card>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </div>
@@ -144,6 +172,14 @@ const getEventsByPersona = (events, persona) =>
 
     return event.personas.split(",").includes(`${persona}`);
   });
+const getEventsBySpeaker = (events, speaker) =>
+  events.filter(event => {
+    if (!speaker || speaker === "All") {
+      return true;
+    }
+
+    return event.speakers.includes(speaker);
+  });
 const getEventsByName = (events, searchQuery) =>
   events.filter(event => {
     if (!searchQuery) {
@@ -164,6 +200,7 @@ export default {
       type: null,
       searchQuery: "",
       persona: null,
+      speaker: "All",
       filters: {
         region: [
           { value: null, text: "All" },
@@ -177,7 +214,8 @@ export default {
           { value: "CONFERENCE", text: "Conference" },
           { value: "MEETUP", text: "Meetup" }
         ],
-        personas: []
+        personas: [],
+        speakers: ["All"]
       }
     };
   },
@@ -192,26 +230,38 @@ export default {
     getUpcoming() {
       getUpcomingConferences().then(conferences => {
         this.conferences = conferences;
+        this.filters.speakers = [
+          "All",
+          ...[
+            ...new Set(
+              conferences.map(conference => {
+                return conference.speakers;
+              })
+            )
+          ].sort()
+        ];
       });
     },
     getPersonas() {
       getPersonas().then(personas => {
-        console.log(personas);
         this.filters.personas = [{ id: null, persona: "All" }, ...personas];
       });
     }
   },
   computed: {
     filteredEvents() {
-      return getEventsByRegion(
-        getEventsByType(
-          getEventsByPersona(
-            getEventsByName(this.conferences, this.searchQuery),
-            this.persona
+      return getEventsBySpeaker(
+        getEventsByRegion(
+          getEventsByType(
+            getEventsByPersona(
+              getEventsByName(this.conferences, this.searchQuery),
+              this.persona
+            ),
+            this.type
           ),
-          this.type
+          this.region
         ),
-        this.region
+        this.speaker
       );
     }
   }

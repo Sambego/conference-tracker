@@ -18,7 +18,7 @@
                 ></b-form-input>
               </b-col>
               <b-col cols="4">
-                <b-form-select v-model="authorFilter" :options="authors"></b-form-select>
+                <b-form-select v-model="speakerFilter" :options="speakers"></b-form-select>
               </b-col>
             </b-row>
           </b-card>
@@ -32,7 +32,7 @@
               <thead>
                 <tr>
                   <th scope="col">Talk Title</th>
-                  <th scope="col">Author</th>
+                  <th scope="col">speaker</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,7 +57,7 @@ import TalkAddModal from "./talk-add-modal";
 import { getTalks } from "../utils/conf-api";
 
 const getTalksByName = (talks, searchQuery) =>
-  talks.filter((talk) => {
+  talks.filter(talk => {
     if (!searchQuery) {
       return true;
     }
@@ -65,13 +65,13 @@ const getTalksByName = (talks, searchQuery) =>
     return talk.title.includes(searchQuery);
   });
 
-const getTalksByAuthor = (talks, author) =>
-  talks.filter((talk) => {
-    if (!author || author === "---- All Authors ----") {
+const getTalksByspeaker = (talks, speaker) =>
+  talks.filter(talk => {
+    if (!speaker || speaker === "All speakers") {
       return true;
     }
 
-    return talk.name.includes(author);
+    return talk.name.includes(speaker);
   });
 
 export default {
@@ -81,8 +81,8 @@ export default {
     return {
       talks: [],
       titleFilter: "",
-      authorFilter: "---- All Authors ----",
-      authors: ["---- All Authors ----"]
+      speakerFilter: "All speakers",
+      speakers: ["All speakers"]
     };
   },
   mounted() {
@@ -90,20 +90,20 @@ export default {
   },
   methods: {
     getTalks() {
-      getTalks().then((talks) => {
+      getTalks().then(talks => {
         this.talks = talks;
-        this.authors = [
-          "---- All Authors ----",
-          ...new Set(this.talks.map(talk => talk.name))
-        ].sort();
+        this.speakers = [
+          "All speakers",
+          ...[...new Set(this.talks.map(talk => talk.name))].sort()
+        ];
       });
     }
   },
   computed: {
     filteredTalks() {
-      return getTalksByAuthor(
+      return getTalksByspeaker(
         getTalksByName(this.talks, this.titleFilter),
-        this.authorFilter
+        this.speakerFilter
       );
     }
   }
