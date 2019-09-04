@@ -9,12 +9,12 @@
         <b-col>
           <b-card class="mt-3" header="Filters">
             <b-row>
-              <b-col cols="4">
+              <b-col cols="3">
                 <b-form-group id="filter-type" label="Type" label-for="filter-type-select">
                   <b-form-select id="filter-type-select" v-model="type" :options="filters.type"></b-form-select>
                 </b-form-group>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="3">
                 <b-form-group id="filter-region" label="Region" label-for="filter-region-select">
                   <b-form-select
                     id="filter-region-select"
@@ -23,7 +23,7 @@
                   ></b-form-select>
                 </b-form-group>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="3">
                 <b-form-group
                   id="filter-search"
                   label="Search by name"
@@ -34,6 +34,17 @@
                     v-model="searchQuery"
                     placeholder="Enter a conference name"
                   ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="3">
+                <b-form-group id="filter-persona" label="Persona" label-for="filter-persona-select">
+                  <b-form-select
+                    id="filter-persona-select"
+                    v-model="persona"
+                    :options="filters.personas"
+                    value-field="id"
+                    text-field="persona"
+                  ></b-form-select>
                 </b-form-group>
               </b-col>
             </b-row>
@@ -102,11 +113,11 @@
 
 <script>
 import AppNav from "./AppNav";
-import { getUpcomingConferences } from "../utils/conf-api";
+import { getUpcomingConferences, getPersonas } from "../utils/conf-api";
 import { dateFormat } from "../utils/helpers";
 
 const getEventsByRegion = (events, region) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (!region) {
       return true;
     }
@@ -114,15 +125,27 @@ const getEventsByRegion = (events, region) =>
     return event.regionId === region;
   });
 const getEventsByType = (events, type) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (!type) {
       return true;
     }
 
     return event.type === type;
   });
+const getEventsByPersona = (events, persona) =>
+  events.filter(event => {
+    if (!persona) {
+      return true;
+    }
+
+    if (!event.personas) {
+      return false;
+    }
+
+    return event.personas.split(",").includes(`${persona}`);
+  });
 const getEventsByName = (events, searchQuery) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (!searchQuery) {
       return true;
     }
@@ -140,6 +163,7 @@ export default {
       region: null,
       type: null,
       searchQuery: "",
+      persona: null,
       filters: {
         region: [
           { value: null, text: "All" },
@@ -152,20 +176,28 @@ export default {
           { value: null, text: "All" },
           { value: "CONFERENCE", text: "Conference" },
           { value: "MEETUP", text: "Meetup" }
-        ]
+        ],
+        personas: []
       }
     };
   },
   mounted() {
     this.getUpcoming();
+    this.getPersonas();
   },
   methods: {
     dateFormat(d) {
       return dateFormat(d);
     },
     getUpcoming() {
-      getUpcomingConferences().then((conferences) => {
+      getUpcomingConferences().then(conferences => {
         this.conferences = conferences;
+      });
+    },
+    getPersonas() {
+      getPersonas().then(personas => {
+        console.log(personas);
+        this.filters.personas = [{ id: null, persona: "All" }, ...personas];
       });
     }
   },
@@ -173,7 +205,10 @@ export default {
     filteredEvents() {
       return getEventsByRegion(
         getEventsByType(
-          getEventsByName(this.conferences, this.searchQuery),
+          getEventsByPersona(
+            getEventsByName(this.conferences, this.searchQuery),
+            this.persona
+          ),
           this.type
         ),
         this.region
