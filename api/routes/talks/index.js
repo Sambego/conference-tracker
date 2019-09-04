@@ -3,4 +3,5 @@ module.exports = app => {
     require("./getTalk")(app);
     require("./postTalks")(app);
     require("./putTalk")(app);
+    require("./deleteTalk")(app);
 };

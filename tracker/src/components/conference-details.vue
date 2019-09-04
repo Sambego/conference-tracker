@@ -124,8 +124,9 @@ export default {
         )
         .then((confirm) => {
           if (confirm) {
-            deleteSubmission(id);
-            this.getConference();
+            deleteSubmission(id).then(() => {
+              this.getConference();
+            });
           }
         })
         .catch(console.error);

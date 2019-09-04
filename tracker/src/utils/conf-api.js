@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken, getUserParam } from "./auth";
 
-const BASE_URL = "https://conf-tracker.herokuapp.com";
-// const BASE_URL = "http://localhost:3333";
+// const BASE_URL = "https://conf-tracker.herokuapp.com";
+const BASE_URL = "http://localhost:3333";
 
 function getHeaders() {
   const authToken = getAccessToken();
@@ -195,6 +195,11 @@ function getStats() {
   return axios.get(url, getHeaders()).then(resp => resp.data);
 }
 
+function deleteTalk(id) {
+  const url = `${BASE_URL}/api/talks/${id}`;
+  return axios.delete(url, getHeaders()).then(resp => resp.data);
+}
+
 export {
   getConferences,
   getUpcomingConferences,
@@ -229,5 +234,6 @@ export {
   getEventSources,
   getEventTypes,
   getNotifications,
-  getStats
+  getStats,
+  deleteTalk
 };

@@ -202,14 +202,13 @@ export default {
     };
   },
   mounted() {
-    getRegions().then(regions => {
+    getRegions().then((regions) => {
       regions.map(r => this.regions.push({ value: r.id, text: r.region }));
     });
   },
   methods: {
     startDateChanged(event) {
-      if (!this.conference.endDate)
-        this.conference.endDate = event.target.value;
+      if (!this.conference.endDate) { this.conference.endDate = event.target.value; }
     },
     handleOk() {
       const formattedConference = Object.assign({}, this.conference);

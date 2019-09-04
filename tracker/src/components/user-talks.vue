@@ -27,7 +27,14 @@
                   <td>
                     <router-link :to="'/talk/' + talk._id">{{ talk.title }}</router-link>
                   </td>
-                  <td>N/A</td>
+                  <td>
+                    <b-btn
+                      v-if="canDeleteOwnTalk"
+                      size="sm"
+                      variant="danger"
+                      @click="openTalkDeleteModal(talk.title, talk._id)"
+                    >Delete</b-btn>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -41,14 +48,16 @@
 <script>
 import AppNav from "./AppNav";
 import TalkAddModal from "./talk-add-modal";
-import { getMyTalks } from "../utils/conf-api";
+import { getMyTalks, deleteTalk } from "../utils/conf-api";
+import { isPermissionEnabled, PERMISSIONS } from "../utils/acl";
 
 export default {
   name: "UserTalks",
   components: { AppNav, TalkAddModal },
   data() {
     return {
-      talks: []
+      talks: [],
+      canDeleteOwnTalk: isPermissionEnabled(PERMISSIONS.TALKS.DELETE_OWN)
     };
   },
   mounted() {
@@ -59,6 +68,23 @@ export default {
       getMyTalks().then((talks) => {
         this.talks = talks;
       });
+    },
+    openTalkDeleteModal(name, id) {
+      this.$bvModal
+        .msgBoxConfirm(
+          `Are you sure you want to delete "${name}""? This action can not be undone.`,
+          {
+            okVariant: "danger",
+            okTitle: "Yes, delete the talk"
+          }
+        )
+        .then((confirm) => {
+          if (confirm) {
+            deleteTalk(id);
+            this.getMyTalks();
+          }
+        })
+        .catch(console.error);
     }
   }
 };
