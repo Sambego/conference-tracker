@@ -186,7 +186,7 @@ const getEventsByName = (events, searchQuery) =>
       return true;
     }
 
-    return event.name.includes(searchQuery);
+    return event.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
 export default {

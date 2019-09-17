@@ -154,7 +154,7 @@ import { dateFormat } from "../utils/helpers";
 import { getConferenceListPermissions } from "../utils/acl";
 
 const getEventsByStatus = (events, showRejected = false) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (showRejected) {
       return true;
     }
@@ -163,7 +163,7 @@ const getEventsByStatus = (events, showRejected = false) =>
   });
 
 const getEventsByExpiryState = (events, showExpired = false) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (showExpired) {
       return true;
     }
@@ -172,12 +172,12 @@ const getEventsByExpiryState = (events, showExpired = false) =>
   });
 
 const getEventsByName = (events, searchQuery) =>
-  events.filter((event) => {
+  events.filter(event => {
     if (!searchQuery) {
       return true;
     }
 
-    return event.name.includes(searchQuery);
+    return event.name.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
 export default {
@@ -202,7 +202,7 @@ export default {
       return dateFormat(d);
     },
     getConferences() {
-      getConferences().then((conferences) => {
+      getConferences().then(conferences => {
         this.conferences = conferences;
       });
     },
@@ -218,7 +218,7 @@ export default {
             okTitle: "Yes, delete the conference"
           }
         )
-        .then((confirm) => {
+        .then(confirm => {
           if (confirm) {
             deleteConference(id).then(() => {
               this.getConferences();

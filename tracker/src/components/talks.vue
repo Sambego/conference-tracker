@@ -71,7 +71,7 @@ const getTalksByspeaker = (talks, speaker) =>
       return true;
     }
 
-    return talk.name.includes(speaker);
+    return talk.name.toLowerCase().includes(speaker.toLowerCase());
   });
 
 export default {
