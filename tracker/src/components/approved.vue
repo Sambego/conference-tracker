@@ -94,6 +94,7 @@ export default {
     },
     getConferenceDetails() {
       getConference(this.$route.params.conferenceId).then((conf) => {
+        console.log(conf);
         this.conference = {
           ...conf,
           overview: `${conf.name} is a [community run, commercial, ...] [developer conference, trade show, ...] focussing on [web technologies, JavaScript, APIs, ...].\n\n[Extra details about the conference]` // eslint-disable-line max-len
@@ -104,7 +105,10 @@ export default {
       const approvals = this.talks
         .filter(talk => talk.approved)
         .map(approval => approval._id);
-      updateConference(this.$route.params.conferenceId, this.conference)
+        
+      updateConference(this.$route.params.conferenceId, {...this.conference, personas: this.conference.personas.reduce((personas, persona) => {
+        return (personas += `${persona.id},`);
+      }, ""), submissions: [...this.conference.submissions]})
         .then(() => {
           const result = addApprovals(
             this.$route.params.conferenceId,

@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 const helpers = require("./helpers");
 
 const credentials =
-    process.env.NODE_ENV === "prod" ? process.env : require("../credentials");
+    process.env.NODE_ENV === "prod" ? process.env : require("../../credentials");
 
 function encodeData(data) {
     for (let key in data) {
