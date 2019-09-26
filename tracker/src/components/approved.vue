@@ -106,9 +106,9 @@ export default {
         .filter(talk => talk.approved)
         .map(approval => approval._id);
         
-      updateConference(this.$route.params.conferenceId, {...this.conference, personas: this.conference.personas.reduce((personas, persona) => {
+      updateConference(this.$route.params.conferenceId, {...this.conference, personas: this.conference.personas ? this.conference.personas.reduce((personas, persona) => {
         return (personas += `${persona.id},`);
-      }, ""), submissions: [...this.conference.submissions]})
+      }, ""), '', submissions: [...this.conference.submissions]})
         .then(() => {
           const result = addApprovals(
             this.$route.params.conferenceId,
