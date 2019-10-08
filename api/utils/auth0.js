@@ -235,6 +235,25 @@ function addToDevelopersReachedSheet(r) {
     });
 }
 
+function addToAPACGoogleCalendar(c, t, s) {
+    let url = "https://hooks.zapier.com/hooks/catch/5126522/o201d6e/";
+
+    const data = {
+      conference: c.name,
+      speaker: s.name,
+      talks: getTalkTitles(t),
+      start: helpers.convertTimestampToMMDYY(c.startDate),
+      end: helpers.convertTimestampToMMDYY(c.endDate ? c.endDate : c.startDate),
+      overview: c.overview,
+      location: getLocation(c)
+    };
+
+    let hook = buildUrl(url, data);
+    return axios.get(hook).catch(err => {
+        console.log("Error adding to APAC event calendar");
+    });
+}
+
 function conferenceApproved(conference, talks, speaker) {
     const promiseArray = [
         addConferenceToSheet(conference, talks, speaker),
@@ -243,6 +262,10 @@ function conferenceApproved(conference, talks, speaker) {
         addToCommunityForums(conference, talks, speaker),
         addToMarketingRoadmap(conference, talks, speaker)
     ];
+
+    if (conference.region === 'APAC') {
+      addToAPACGoogleCalendar(conference, talks, speaker)
+    }
 
     return Promise.all(promiseArray).then(_ => {
         console.log("All hooks completed for conference acceptance");
