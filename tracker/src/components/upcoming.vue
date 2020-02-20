@@ -26,7 +26,7 @@
                 <b-row>
                   <b-col>
                     <b-form-group id="filter-type" label="Type" label-for="filter-type-select">
-                      <b-form-select id="filter-type-select" v-model="type" :options="filters.type"></b-form-select>
+                      <b-form-select id="filter-type-select" v-model="type" :options="[{ value: null, text: 'All' }, ...eventTypes.map(t => ({text: t.type, value: t.id}))]"></b-form-select>
                     </b-form-group>
                   </b-col>
                 </b-row>
@@ -147,8 +147,8 @@ const getEventsByType = (events, type) =>
     if (!type) {
       return true;
     }
-
-    return event.type === type;
+    console.log(type, event);
+    return event.eventType === type;
   });
 const getEventsByPersona = (events, persona) =>
   events.filter((event) => {
@@ -198,11 +198,6 @@ export default {
           { value: 2, text: "EMEA" },
           { value: 3, text: "APAC" },
           { value: 4, text: "Global" }
-        ],
-        type: [
-          { value: null, text: "All" },
-          { value: "CONFERENCE", text: "Conference" },
-          { value: "MEETUP", text: "Meetup" }
         ],
         personas: [],
         speakers: ["All"]

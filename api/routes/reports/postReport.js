@@ -15,7 +15,6 @@ const handlePostReport = async(req, res) => {
         AND r.userId = u.id
         AND r.id = ?`;
         const report = await query.once(sql, [result.insertId]);
-        console.log(report);
         console.log(`Posting report`);
         events.postConferenceReport(report);
         return res.json(report);
