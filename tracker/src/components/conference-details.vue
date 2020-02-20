@@ -33,7 +33,7 @@
             <table class="table table-striped mb-0">
               <thead>
                 <tr>
-                  <th scope="col">Talk</th>
+                  <th scope="col">Activity</th>
                   <th scope="col">Presenter</th>
                   <th scope="col">Status</th>
                   <th scope="col">Actions</th>
@@ -41,7 +41,8 @@
               </thead>
               <tbody>
                 <tr v-for="submission in conference.submissions" :key="submission._id">
-                  <td>{{ submission.talk.title }}</td>
+                  <td v-if="eventTypeHasSubmissions">Talk: {{ submission.talk.title }}</td>
+                  <td v-if="!eventTypeHasSubmissions">{{ eventTypeName }}</td>
                   <td>{{ submission.user.name }}</td>
                   <td>
                     <span v-if="submission.status === 'APPROVED'">👍</span>
@@ -77,10 +78,13 @@ import AppNav from "./AppNav";
 import {
   getConference,
   getLocalUser,
-  deleteSubmission
+  deleteSubmission,
+  getEventTypes
 } from "../utils/conf-api";
 import { dateFormat, expensesCovered } from "../utils/helpers";
 import { isPermissionEnabled, PERMISSIONS } from "../utils/acl";
+
+const eventsThatHaveSubmissions = [1, 2, 3, 4, 5, 7, 9];
 
 export default {
   components: { AppNav },
@@ -95,12 +99,14 @@ export default {
       ),
       canDeleteAnySubMission: isPermissionEnabled(
         PERMISSIONS.SUBMISSIONS.DELETE_ANY
-      )
+      ),
+      eventTypes: []
     };
   },
   mounted() {
     this.getConference();
     this.getUser();
+    this.getEventTypes();
   },
   methods: {
     dateFormat(d) {
@@ -110,14 +116,17 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then(conference => {
+      getConference(this.$route.params.conferenceId).then((conference) => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then(user => {
+      getLocalUser().then((user) => {
         this.user = user;
       });
+    },
+    getEventTypes() {
+      getEventTypes().then(types => this.eventTypes = types);
     },
     openSubmissionDeleteModal(name, id) {
       this.$bvModal
@@ -128,7 +137,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then(confirm => {
+        .then((confirm) => {
           if (confirm) {
             deleteSubmission(id).then(() => {
               this.getConference();
@@ -136,6 +145,18 @@ export default {
           }
         })
         .catch(console.error);
+    }
+  },
+  computed: {
+    eventTypeHasSubmissions() {
+      return eventsThatHaveSubmissions.includes(this.conference.eventType);
+    },
+    eventTypeName() {
+      if (this.eventTypes.length < 1) {
+        return "";
+      }
+
+      return this.eventTypes.find(e => e.id === this.conference.eventType).type;
     }
   }
 };

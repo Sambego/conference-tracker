@@ -102,22 +102,12 @@
                     >
                       <td>
                         <router-link
-                          v-if="conference.type=='CONFERENCE'"
                           :to="'conference/' + conference._id"
-                        >{{ conference.name }}</router-link>
-                        <router-link
-                          v-if="conference.type=='MEETUP'"
-                          :to="'meetups/' + conference._id"
                         >{{ conference.name }}</router-link>
                         <a :href="conference.url" target="_blank">🔗</a>
                       </td>
                       <td>
-                        <b-badge
-                          pill
-                          variant="success"
-                          v-if="conference.type=='CONFERENCE'"
-                        >Conference</b-badge>
-                        <b-badge pill variant="danger" v-if="conference.type=='MEETUP'">Meetup</b-badge>
+                        {{ getEventTypeName(conference.eventType) }}
                       </td>
                       <td>
                         {{ dateFormat(conference.startDate) }}
@@ -141,11 +131,11 @@
 
 <script>
 import AppNav from "./AppNav";
-import { getUpcomingConferences, getPersonas } from "../utils/conf-api";
+import { getUpcomingConferences, getPersonas, getEventTypes } from "../utils/conf-api";
 import { dateFormat } from "../utils/helpers";
 
 const getEventsByRegion = (events, region) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!region) {
       return true;
     }
@@ -153,7 +143,7 @@ const getEventsByRegion = (events, region) =>
     return event.regionId === region;
   });
 const getEventsByType = (events, type) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!type) {
       return true;
     }
@@ -161,7 +151,7 @@ const getEventsByType = (events, type) =>
     return event.type === type;
   });
 const getEventsByPersona = (events, persona) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!persona) {
       return true;
     }
@@ -173,7 +163,7 @@ const getEventsByPersona = (events, persona) =>
     return event.personas.split(",").includes(`${persona}`);
   });
 const getEventsBySpeaker = (events, speaker) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!speaker || speaker === "All") {
       return true;
     }
@@ -181,7 +171,7 @@ const getEventsBySpeaker = (events, speaker) =>
     return event.speakers.includes(speaker);
   });
 const getEventsByName = (events, searchQuery) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!searchQuery) {
       return true;
     }
@@ -216,36 +206,47 @@ export default {
         ],
         personas: [],
         speakers: ["All"]
-      }
+      },
+      eventTypes: []
     };
   },
   mounted() {
     this.getUpcoming();
     this.getPersonas();
+    this.getEventTypes();
   },
   methods: {
     dateFormat(d) {
       return dateFormat(d);
     },
     getUpcoming() {
-      getUpcomingConferences().then(conferences => {
+      getUpcomingConferences().then((conferences) => {
         this.conferences = conferences;
         this.filters.speakers = [
           "All",
           ...[
             ...new Set(
-              conferences.map(conference => {
-                return conference.speakers;
-              })
+              conferences.map(conference => conference.speakers)
             )
           ].sort()
         ];
       });
     },
     getPersonas() {
-      getPersonas().then(personas => {
+      getPersonas().then((personas) => {
         this.filters.personas = [{ id: null, persona: "All" }, ...personas];
       });
+    },
+    getEventTypes() {
+      getEventTypes().then(types => this.eventTypes = types);
+    },
+    getEventTypeName(type = 1) {
+      const eventType = Number.isInteger(type) ? type : 1;
+      if (this.eventTypes.length < 1) {
+        return "";
+      }
+
+      return this.eventTypes.find(e => e.id === eventType).type;
     }
   },
   computed: {

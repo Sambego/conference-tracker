@@ -3,7 +3,7 @@
     <app-nav></app-nav>
 
     <div class="container-fluid pt-5">
-      <h2>My talks</h2>
+      <h2>My content</h2>
 
       <b-row class="mb-3">
         <b-col class="text-right">
@@ -17,14 +17,14 @@
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>
-                  <th scope="col">Talk Title</th>
+                  <th scope="col">Content Title</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="talk in talks" :key="talk.id">
                   <td>
-                    <router-link :to="'/talk/' + talk._id">{{ talk.title }}</router-link>
+                    <router-link :to="'/content/' + talk._id">{{ talk.title }}</router-link>
                   </td>
                   <td>
                     <b-btn

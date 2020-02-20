@@ -6,13 +6,12 @@
 
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <b-nav-item v-if="permissions.showConferenceLink" to="/conferences">Conferences</b-nav-item>
-        <b-nav-item v-if="permissions.showMeetupLink" to="/meetups">Meetups</b-nav-item>
+        <b-nav-item v-if="permissions.showConferenceLink" to="/conferences">Events</b-nav-item>
         <b-nav-item v-if="permissions.showUpcomingLink" to="/upcoming">Upcoming</b-nav-item>
-        <b-nav-item-dropdown v-if="permissions.showTalkLink" to="/talks">
-          <template slot="button-content">Talks</template>
-          <b-dropdown-item v-if="permissions.showOwnTalkLink" to="/user/talks">My talks</b-dropdown-item>
-          <b-dropdown-item v-if="permissions.showTalkLink" to="/talks">All talks</b-dropdown-item>
+        <b-nav-item-dropdown v-if="permissions.showTalkLink" to="/content">
+          <template slot="button-content">Content</template>
+          <b-dropdown-item v-if="permissions.showOwnTalkLink" to="/user/content">My content</b-dropdown-item>
+          <b-dropdown-item v-if="permissions.showTalkLink" to="/content">All content</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown
           v-if="permissions.showDueReportsLink || permissions.showAllReportsLink"
@@ -54,7 +53,7 @@ import { getNotifications } from "../utils/conf-api";
 export default {
   name: "app-nav",
   mounted() {
-    getNotifications().then(notifications => {
+    getNotifications().then((notifications) => {
       this.notifications = notifications;
     });
   },

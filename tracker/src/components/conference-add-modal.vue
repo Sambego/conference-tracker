@@ -5,7 +5,7 @@
     <b-modal
       size="lg"
       id="conferenceAddModal"
-      title="Add Conference"
+      title="Add an event"
       @ok="handleOk"
       @show="onShown"
       ref="modal"
@@ -13,25 +13,24 @@
       <b-form>
         <b-row>
           <b-col cols="6">
-            <b-form-group label="Conference Name" label-for="name">
+            <b-form-group v-bind:label="eventTypeName +' Name'" label-for="name">
               <b-form-input
                 id="name"
                 type="text"
                 required
-                placeholder="Conference X"
+                v-bind:placeholder="eventTypeName + ' X'"
                 v-model="conference.name"
               ></b-form-input>
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group label="Website" label-for="url">
-              <b-form-input
-                id="url"
-                type="text"
-                required
-                placeholder="https://www.example.com"
-                v-model="conference.url"
-              ></b-form-input>
+            <b-form-group label="Event Type" label-for="type">
+              <b-form-select
+                id="type"
+                v-model="conference.eventType"
+                :options="eventTypes"
+                class="mb-3"
+              />
             </b-form-group>
           </b-col>
         </b-row>
@@ -60,7 +59,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="showCfp">
           <b-col cols="6">
             <b-form-group label="CFP URL" label-for="cfpUrl">
               <b-form-input
@@ -84,7 +83,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="showLocation">
           <b-col cols="6">
             <b-form-group label="City" label-for="city">
               <b-form-input
@@ -108,7 +107,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
+        <b-row v-if="showLocation">
           <b-col cols="6">
             <b-form-group label="Country" label-for="country">
               <b-form-input
@@ -143,9 +142,20 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col cols="6"></b-col>
+          <b-col cols="6">
+            <b-form-group label="Website" label-for="url">
+              <b-form-input
+                id="url"
+                type="text"
+                required
+                placeholder="https://www.example.com"
+                v-model="conference.url"
+              ></b-form-input>
+            </b-form-group>
+          </b-col>
         </b-row>
-        <b-row>
+        </b-row>
+        <b-row v-if="showLocation">
           <b-col cols="6">
             <b-form-group label="✈️ Covered" label-for="travelCovered">
               <b-form-select
@@ -169,7 +179,7 @@
         </b-row>
         <b-row>
           <b-col cols="6">
-            <b-form-group label="Conference personas" label-for="personas">
+            <b-form-group label="Event personas" label-for="personas">
               <b-form-select
                 id="personas"
                 v-model="conference.personas"
@@ -188,8 +198,12 @@
 </template>
 
 <script>
-import { addConference, getRegions, getPersonas } from "../utils/conf-api";
+import { addConference, getRegions, getPersonas, getEventTypes, addSubmissions } from "../utils/conf-api";
 import { EXPENSES_COVERED } from "../utils/helpers";
+
+const eventsThatHaveCfp = [1, 7];
+const eventsThatAreLocationBound = [1, 2, 7, 8, 9];
+const eventsThatHaveSubmissions = [1, 2, 3, 4, 5, 7, 9];
 
 export default {
   name: "conference-add-modal",
@@ -207,9 +221,11 @@ export default {
         country: "",
         twitter: "",
         regionId: 1,
-        personas: []
+        personas: [],
+        eventType: 1
       },
       regions: [],
+      eventTypes: [],
       expensesOptions: [
         { value: EXPENSES_COVERED.NO, text: "No" },
         { value: EXPENSES_COVERED.YES, text: "Yes" },
@@ -219,9 +235,10 @@ export default {
     };
   },
   mounted() {
-    getRegions().then(regions => {
+    getRegions().then((regions) => {
       regions.map(r => this.regions.push({ value: r.id, text: r.region }));
     });
+    getEventTypes().then(types => types.forEach(type => this.eventTypes.push({ value: type.id, text: type.type })));
     this.getPersonas();
   },
   methods: {
@@ -231,16 +248,33 @@ export default {
       }
     },
     handleOk() {
-      addConference({
-        ...this.conference,
-        startDate: new Date(this.conference.startDate).getTime(),
-        endDate: new Date(this.conference.endDate).getTime(),
-        cfpDate: new Date(this.conference.cfpDate).getTime(),
-        personas: this.conference.personas.reduce((personas, persona) => {
-          return (personas += `${persona},`);
-        }, "")
-      });
-      this.$emit("conferenceAdded", {});
+      if (eventsThatHaveSubmissions.includes(this.conference.eventType)) {
+        addConference({
+          ...this.conference,
+          startDate: new Date(this.conference.startDate).getTime(),
+          endDate: new Date(this.conference.endDate).getTime(),
+          cfpDate: new Date(this.conference.cfpDate).getTime(),
+          personas: this.conference.personas.reduce((personas, persona) => (personas += `${persona},`), "")
+        }).then(() => {
+          this.$emit("conferenceAdded", {});
+        });
+      } else {
+        addConference({
+          ...this.conference,
+          startDate: new Date(this.conference.startDate).getTime(),
+          endDate: new Date(this.conference.endDate).getTime(),
+          cfpDate: null,
+          personas: this.conference.personas.reduce((personas, persona) => (personas += `${persona},`), "")
+        }).then((event) => {
+          addSubmissions({
+            id: event.id,
+            submissions: [{ talkId: null }],
+            eventType: event.eventType
+          }).then(() => {
+            this.$emit("conferenceAdded", {});
+          });
+        });
+      }
     },
     onShown() {
       this.conference.name = "";
@@ -258,9 +292,24 @@ export default {
       // this.$refs.modal.hide();
     },
     getPersonas() {
-      getPersonas().then(personas => {
+      getPersonas().then((personas) => {
         this.personas = personas;
       });
+    }
+  },
+  computed: {
+    showCfp() {
+      return eventsThatHaveCfp.includes(this.conference.eventType);
+    },
+    showLocation() {
+      return eventsThatAreLocationBound.includes(this.conference.eventType);
+    },
+    eventTypeName() {
+      if (this.eventTypes.length < 1) {
+        return "";
+      }
+
+      return this.eventTypes.find(e => e.value === this.conference.eventType).text;
     }
   }
 };

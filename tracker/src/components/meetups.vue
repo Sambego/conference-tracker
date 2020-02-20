@@ -93,7 +93,7 @@ export default {
       return dateFormat(d);
     },
     getMeetups() {
-      getMeetups().then(meetups => {
+      getMeetups().then((meetups) => {
         this.meetups = meetups;
       });
     },

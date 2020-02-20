@@ -7,14 +7,15 @@ const handlePostReport = async(req, res) => {
         const userId = await query.getDBUserId(req.headers);
         const data = {...req.body, userId };
         const result = await query.make(`INSERT INTO reports SET ?`, [data]);
-        const sql = `SELECT r.*, t.type, s.source, reg.region
-      FROM reports r, eventTypes t, eventSources s, regions reg
+        const sql = `SELECT r.*, t.type, s.source, u.name, reg.region
+      FROM reports r, eventTypes t, eventSources s, users u, regions reg
       WHERE r.regionId = reg.id
-        AND r.typeId = t.id
+        AND r.eventType = t.id
         AND r.sourceId = s.id
+        AND r.userId = u.id
         AND r.id = ?`;
         const report = await query.once(sql, [result.insertId]);
-
+        console.log(report);
         console.log(`Posting report`);
         events.postConferenceReport(report);
         return res.json(report);

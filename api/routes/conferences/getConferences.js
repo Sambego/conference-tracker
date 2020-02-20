@@ -17,8 +17,8 @@ const handleGetConferences = async(req, res) => {
             return conferences.map(conference => {
                 return {
                     ...conference,
-                    expired: conference.mySubmissions === 0 &&
-                        conference.cfpDate < helpers.yesterday(),
+                    expired: conference.mySubmissions === 0 && conference.cfpDate !== null &&
+                        conference.cfpDate < helpers.yesterday() ,
                     rejected: !!(!conference.myApproved && conference.myRejected)
                 };
             });

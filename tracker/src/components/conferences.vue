@@ -3,7 +3,7 @@
     <app-nav></app-nav>
 
     <div class="container-fluid pt-5">
-      <h2>Welcome to the great list of conferences</h2>
+      <h2>Welcome to the great list of Events</h2>
 
       <b-row class="mb-4">
         <b-col>
@@ -40,7 +40,7 @@
             <table class="table table-borderless table-striped mb-0">
               <thead>
                 <tr>
-                  <th scope="col">Conference Name</th>
+                  <th scope="col">Event Name</th>
                   <th scope="col">Dates</th>
                   <th scope="col">Status</th>
                   <th scope="col">Actions</th>
@@ -154,7 +154,7 @@ import { dateFormat } from "../utils/helpers";
 import { getConferenceListPermissions } from "../utils/acl";
 
 const getEventsByStatus = (events, showRejected = false) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (showRejected) {
       return true;
     }
@@ -163,7 +163,7 @@ const getEventsByStatus = (events, showRejected = false) =>
   });
 
 const getEventsByExpiryState = (events, showExpired = false) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (showExpired) {
       return true;
     }
@@ -172,7 +172,7 @@ const getEventsByExpiryState = (events, showExpired = false) =>
   });
 
 const getEventsByName = (events, searchQuery) =>
-  events.filter(event => {
+  events.filter((event) => {
     if (!searchQuery) {
       return true;
     }
@@ -202,7 +202,7 @@ export default {
       return dateFormat(d);
     },
     getConferences() {
-      getConferences().then(conferences => {
+      getConferences().then((conferences) => {
         this.conferences = conferences;
       });
     },
@@ -215,10 +215,10 @@ export default {
           `Are you sure you want to delete "${name}"? This action can not be undone.`,
           {
             okVariant: "danger",
-            okTitle: "Yes, delete the conference"
+            okTitle: "Yes, delete the event"
           }
         )
-        .then(confirm => {
+        .then((confirm) => {
           if (confirm) {
             deleteConference(id).then(() => {
               this.getConferences();

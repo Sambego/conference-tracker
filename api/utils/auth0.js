@@ -226,7 +226,9 @@ function addToDevelopersReachedSheet(r) {
         formattedDate: helpers.convertTimestampToMMDYY(r.eventDate),
         developersReached: r.developersReached,
         region: r.region,
-        quarter: helpers.getQuarter(r.eventDate)
+        quarter: helpers.getQuarter(r.eventDate),
+        user: r.name,
+        relations: r.relations
     };
 
     let hook = buildUrl(url, data);

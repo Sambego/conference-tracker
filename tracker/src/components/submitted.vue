@@ -4,9 +4,9 @@
 
     <b-row><b-col>&nbsp;</b-col></b-row>
 
-    <h2>Talks Submissions to {{ conference.name }}</h2>
+    <h2>Submissions to {{ conference.name }}</h2>
 
-    <b-row>
+    <b-row v-if="conference.cfpDate !== null">
       <b-col cols="6" offset="3">
         <p>The CFP for {{ conference.name }} is opened until {{ new Date(conference.cfpDate).toLocaleDateString() }}.</p>
         <p>You can submit your talks at <a :href="conference.cfpUrl" target="_blank">{{ conference.cfpUrl }}</a>. </p>
@@ -86,7 +86,7 @@ export default {
         const talkId = talk._id;
         return { talkId };
       });
-      addSubmissions(this.conference._id, submissions).then(() => this.$router.push("/conferences"));
+      addSubmissions({ id: this.conference._id, submissions, eventType: this.conference.eventType }).then(() => this.$router.push("/conferences"));
     },
     expand(event) {
       this.$root.$emit("bv::toggle::collapse", event.currentTarget.id);

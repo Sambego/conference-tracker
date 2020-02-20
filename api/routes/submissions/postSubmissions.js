@@ -11,14 +11,15 @@ const handlePostSubmissions = async(req, res) => {
 
         const inserts = [];
         const talks = submittedTalks.map(t => t.talkId);
-
-        req.body.forEach(submission => {
+        const submissions = req.body.submissions ? req.body.submissions : [];
+        submissions.forEach(submission => {
             if (talks.indexOf(submission.talkId) === -1) {
                 let data = {
                     talkId: submission.talkId,
                     userId: userId,
-                    status: "NULL",
-                    conferenceId: req.params.id
+                    status: submission.talkId === null ? "APPROVED" : "NULL",
+                    conferenceId: req.body.id,
+                    eventType: req.body.eventType
                 };
 
                 inserts.push(query.make(`INSERT INTO submissions SET ?`, [data]));

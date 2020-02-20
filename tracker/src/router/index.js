@@ -111,8 +111,8 @@ export default new Router({
     beforeEnter: requireAuth
   },
   {
-    path: "/user/talks",
-    name: "UserTalks",
+    path: "/user/content",
+    name: "UseContent",
     component: UserTalks,
     beforeEnter: requireAuth,
     meta: {
@@ -120,8 +120,8 @@ export default new Router({
     }
   },
   {
-    path: "/talks",
-    name: "Talks",
+    path: "/content",
+    name: "Content",
     component: Talks,
     beforeEnter: requireAuth,
     meta: {
@@ -129,8 +129,8 @@ export default new Router({
     }
   },
   {
-    path: "/talk/:talkId",
-    name: "Talk",
+    path: "/content/:talkId",
+    name: "ContentDetails",
     component: Talk,
     beforeEnter: requireAuth,
     meta: {

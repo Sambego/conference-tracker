@@ -5,7 +5,7 @@
     <b-modal
       size="lg"
       id="talkAddModal"
-      title="Add Conference"
+      title="Add content"
       @ok="handleOk"
       @show="onShown"
       ref="modal"
@@ -13,7 +13,7 @@
       <b-form>
         <b-row>
           <b-col>
-            <b-form-group label="Talk Title" label-for="name">
+            <b-form-group label="Title" label-for="name">
               <b-form-input
                 id="name"
                 type="text"

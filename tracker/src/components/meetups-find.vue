@@ -105,7 +105,7 @@ export default {
     },
     findMeetups() {
       this.searching = true;
-      getMeetups(this.latlng).then(meetups => {
+      getMeetups(this.latlng).then((meetups) => {
         this.searching = false;
         this.meetups = meetups;
       });

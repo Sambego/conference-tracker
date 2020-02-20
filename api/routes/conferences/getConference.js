@@ -3,13 +3,17 @@ const query = require("../../utils/query");
 
 const handleGetConference = async(req, res) => {
     try {
+        const eventsThatHaveSubmissions = [1, 2, 3, 4, 5, 7, 9];
         const conferenceSql = `SELECT *, id _id FROM conferences WHERE id = ?`;
         const submissionsSql = `SELECT s.*, t.title, u.name
             FROM submissions s, talks t, users u
             WHERE s.talkId = t.id AND s.userId = u.id AND s.conferenceId = ?`;
+        const emptySubmissionSql = `SELECT s.*, u.name
+            FROM submissions s,  users u
+            WHERE s.userId = u.id AND s.conferenceId = ?`;
 
         const conference = await query.once(conferenceSql, [req.params.id]);
-        const submissions = await query.make(submissionsSql, [req.params.id]);
+        const submissions = await query.make(eventsThatHaveSubmissions.includes(conference.eventType) ? submissionsSql : emptySubmissionSql, [req.params.id]);
 
         const augmentedConference = {
             ...conference,

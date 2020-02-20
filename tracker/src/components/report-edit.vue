@@ -145,8 +145,17 @@ export default {
           this.report.developersReached = event.attendeeGoal;
           this.report.relations = event.relationshipGoal;
           this.report.eventDate = event.startDate;
+          this.report.eventType = event.eventType;
         });
       }
+    },
+    getEventTypeName(type = 1) {
+      const eventType = Number.isInteger(type) ? type : 1;
+      if (this.types.length < 1) {
+        return "";
+      }
+
+      return this.types.find(e => e.value === eventType).text;
     },
     saveReport() {
       const report = this.report;

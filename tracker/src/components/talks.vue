@@ -3,7 +3,7 @@
     <app-nav></app-nav>
 
     <div class="container-fluid pt-5">
-      <h2 class="mb-3">All talks</h2>
+      <h2 class="mb-3">All content</h2>
 
       <b-row class="mb-4">
         <b-col>
@@ -31,14 +31,14 @@
             <table class="table table-striped table-borderless mb-0">
               <thead>
                 <tr>
-                  <th scope="col">Talk Title</th>
+                  <th scope="col">Content title</th>
                   <th scope="col">speaker</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="talk in filteredTalks" :key="talk.id">
                   <td>
-                    <router-link :to="'talk/' + talk.id">{{ talk.title }}</router-link>
+                    <router-link :to="'content/' + talk.id">{{ talk.title }}</router-link>
                   </td>
                   <td>{{talk.name}}</td>
                 </tr>
@@ -57,7 +57,7 @@ import TalkAddModal from "./talk-add-modal";
 import { getTalks } from "../utils/conf-api";
 
 const getTalksByName = (talks, searchQuery) =>
-  talks.filter(talk => {
+  talks.filter((talk) => {
     if (!searchQuery) {
       return true;
     }
@@ -66,7 +66,7 @@ const getTalksByName = (talks, searchQuery) =>
   });
 
 const getTalksByspeaker = (talks, speaker) =>
-  talks.filter(talk => {
+  talks.filter((talk) => {
     if (!speaker || speaker === "All speakers") {
       return true;
     }
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     getTalks() {
-      getTalks().then(talks => {
+      getTalks().then((talks) => {
         this.talks = talks;
         this.speakers = [
           "All speakers",
