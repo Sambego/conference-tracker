@@ -4,7 +4,7 @@ const helpers = require("../../utils/helpers");
 
 const handleGetReport = async(req, res) => {
     try {
-        const sql = `SELECT DISTINCT reports.id, reports.conferenceId AS "eventId", users.name AS "userName", reports.impressions, reports.notes, reports.developersReached, reports.relations, reports.eventName, reports.eventDate
+        const sql = `SELECT DISTINCT reports.id, reports.conferenceId AS "eventId", users.name AS "userName", reports.impressions, reports.notes, reports.developersReached, reports.relations, reports.eventName, reports.eventDate, reports.link
         FROM reports
         JOIN users on users.id = reports.userId
         WHERE reports.id = ?`;

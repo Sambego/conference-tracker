@@ -11,7 +11,7 @@
         <b-col cols="6" offset="3">
           <b-card v-bind:header="report.eventName" no-body>
             <b-card-header>Details</b-card-header>
-            <table class="table table-striped table-borderless mb-0">
+            <table class="table table-striped table-borderless mb-0 ">
               <thead>
                 <tr>
                   <th scope="col">Speaker</th>
@@ -31,12 +31,16 @@
             </table>
 
             <b-card-header v-if="report.impressions">Impressions</b-card-header>
-            <b-card-body v-if="report.impressions">
+            <b-card-body v-if="report.impressions" class="text-left">
               <p class="mb-0">{{report.impressions}}</p>
             </b-card-body>
             <b-card-header v-if="report.notes">Notes</b-card-header>
-            <b-card-body v-if="report.notes">
+            <b-card-body v-if="report.notes" class="text-left">
               <p class="mb-0">{{report.notes}}</p>
+            </b-card-body>
+            <b-card-header v-if="report.link">Link to full report</b-card-header>
+            <b-card-body v-if="report.link" class="text-left">
+              <a href="report.link" target="_blank" class="mb-0">{{report.link}}</a>
             </b-card-body>
           </b-card>
         </b-col>

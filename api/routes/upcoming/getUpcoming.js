@@ -33,6 +33,10 @@ const handleUpcomgin = async(req, res) => {
                     return event;
                 }
 
+                if (!event.city && !event.country) {
+                  return event;
+                }
+
                 return {
                     ...event,
                     location: event.state ?

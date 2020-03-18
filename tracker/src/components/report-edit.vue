@@ -83,6 +83,14 @@
           >
             <b-form-textarea id="notes" v-model="report.notes" :rows="6"></b-form-textarea>
           </b-form-group>
+          <b-form-group
+            horizontal
+            id="link"
+            label="A link to the full report"
+            label-for="link"
+          >
+            <b-form-input id="link" v-model="report.link" ></b-form-input>
+          </b-form-group>
         </b-col>
       </b-row>
 

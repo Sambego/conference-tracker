@@ -77,6 +77,14 @@
                     </b-form-group>
                   </b-col>
                 </b-row>
+                <b-row>
+                  <b-col>
+                    <conference-add-modal 
+                      v-if="permissions.addConference" 
+                      @conferenceAdded="getUpcoming()" 
+                    ></conference-add-modal>
+                  </b-col>
+                </b-row>
               </b-card>
             </b-col>
           </b-row>
@@ -115,7 +123,8 @@
                           v-if="conference.endDate && conference.startDate != conference.endDate"
                         >to {{ dateFormat(conference.endDate) }}</span>
                       </td>
-                      <td>{{ conference.location }}</td>
+                      <td v-if="conference.location">{{ conference.location }}</td>
+                      <td v-if="!conference.location">N/A</td>
                       <td>{{ conference.speakers }}</td>
                     </tr>
                   </tbody>
@@ -133,6 +142,8 @@
 import AppNav from "./AppNav";
 import { getUpcomingConferences, getPersonas, getEventTypes } from "../utils/conf-api";
 import { dateFormat } from "../utils/helpers";
+import ConferenceAddModal from "./conference-add-modal";
+import { getConferenceListPermissions } from "../utils/acl";
 
 const getEventsByRegion = (events, region) =>
   events.filter((event) => {
@@ -180,7 +191,7 @@ const getEventsByName = (events, searchQuery) =>
   });
 
 export default {
-  components: { AppNav },
+  components: { AppNav, ConferenceAddModal },
   name: "upcoming",
   data() {
     return {
@@ -202,7 +213,8 @@ export default {
         personas: [],
         speakers: ["All"]
       },
-      eventTypes: []
+      eventTypes: [],
+      permissions: getConferenceListPermissions()
     };
   },
   mounted() {
