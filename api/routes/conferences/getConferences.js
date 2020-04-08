@@ -10,21 +10,23 @@ const handleGetConferences = async(req, res) => {
         (SELECT COUNT(id) FROM submissions WHERE status = "REJECTED" AND userId = ${userId} AND conferenceId = conferences.id) myRejected,
         (SELECT COUNT(id) FROM submissions WHERE status = "NULL" AND userId = ${userId}  AND conferenceId = conferences.id) mySubmissions
         FROM conferences
-        WHERE startDate > ${helpers.now()}`;
+        WHERE startDate >= ${helpers.today()}`;
+        console.log("----", helpers.today());
         const conferences = await query.make(sql);
 
-        const mapConferences = conferences => {
-            return conferences.map(conference => {
+        const mapConferences = (conferences) => {
+            return conferences.map((conference) => {
                 return {
                     ...conference,
-                    expired: conference.mySubmissions === 0 && conference.cfpDate !== null &&
-                        conference.cfpDate < helpers.yesterday() ,
-                    rejected: !!(!conference.myApproved && conference.myRejected)
+                    expired: conference.mySubmissions === 0 &&
+                        conference.cfpDate !== null &&
+                        conference.cfpDate < helpers.yesterday(),
+                    rejected: !!(!conference.myApproved && conference.myRejected),
                 };
             });
         };
 
-        const orderConferences = conferences => {
+        const orderConferences = (conferences) => {
             return conferences.sort((a, b) => {
                 if (a.startDate < b.startDate) return -1;
                 return 1;
@@ -39,11 +41,11 @@ const handleGetConferences = async(req, res) => {
     }
 };
 
-module.exports = app => {
+module.exports = (app) => {
     app.get(
         "/api/conferences", [
             permissions.authCheck,
-            permissions.guard.check(permissions.permissions.CONFERENCES.LIST)
+            permissions.guard.check(permissions.permissions.CONFERENCES.LIST),
         ],
         handleGetConferences
     );
