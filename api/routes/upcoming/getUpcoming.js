@@ -13,13 +13,13 @@ const handleUpcomgin = async(req, res) => {
         AND c.startDate > ${helpers.today()}
         ${
           req.params.week
-            ? "AND c.startDate < " + (helpers.now() + 7 * 24 * 60 * 60 * 1000)
+            ? "AND c.startDate < " + (helpers.today() + 7 * 24 * 60 * 60 * 1000)
             : ""
         }
       GROUP BY c.name`;
         const meetupsSql = `SELECT m.*, m.id _id, u.name speakers, "MEETUP" type, CONCAT("https://www.meetup.com/", m.meetupUrlName) url
       FROM meetups m, users u
-      WHERE m.userId = u.id AND m.status = "CONFIRMED" AND m.startDate > ${helpers.now()}
+      WHERE m.userId = u.id AND m.status = "CONFIRMED" AND m.startDate > ${helpers.today()}
       ${
         req.params.week
           ? "AND m.startDate < " + (helpers.today() + 7 * 24 * 60 * 60 * 1000)
