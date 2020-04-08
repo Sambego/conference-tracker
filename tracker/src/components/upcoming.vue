@@ -79,9 +79,9 @@
                 </b-row>
                 <b-row>
                   <b-col>
-                    <conference-add-modal 
-                      v-if="permissions.addConference" 
-                      @conferenceAdded="getUpcoming()" 
+                    <conference-add-modal
+                      v-if="permissions.addConference"
+                      @conferenceAdded="getUpcoming()"
                     ></conference-add-modal>
                   </b-col>
                 </b-row>

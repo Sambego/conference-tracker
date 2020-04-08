@@ -31,6 +31,7 @@ require("./api/routes/reports")(app);
 require("./api/routes/stats")(app);
 require("./api/routes/personas")(app);
 require("./api/routes/other")(app);
+require("./api/routes/search")(app);
 
 app.get("*", (req, res) => {
     res.sendFile(__dirname + "/dist/index.html");

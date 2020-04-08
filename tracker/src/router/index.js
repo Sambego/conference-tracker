@@ -23,6 +23,7 @@ import ReportsAll from "@/components/reports-all";
 import ReportEdit from "@/components/report-edit";
 import ReportRead from "@/components/report-read";
 import Stats from "@/components/stats";
+import Search from "@/components/search";
 
 import { isLoggedIn } from "../utils/auth";
 import { isGuest, isPermissionEnabled, PERMISSIONS } from "../utils/acl";
@@ -42,7 +43,10 @@ function requireAuth(to, from, next) {
     });
   }
 
-  if (to.meta.requiredPermission && !isPermissionEnabled(to.meta.requiredPermission)) {
+  if (
+    to.meta.requiredPermission &&
+        !isPermissionEnabled(to.meta.requiredPermission)
+  ) {
     return next({
       path: "/unauthorized"
     });
@@ -234,6 +238,15 @@ export default new Router({
     beforeEnter: requireAuth,
     meta: {
       requiredPermission: PERMISSIONS.STATS.READ
+    }
+  },
+  {
+    path: "/search/:query",
+    name: "Search",
+    component: Search,
+    beforeEnter: requireAuth,
+    meta: {
+      requiredPermission: PERMISSIONS.CONFERENCES.LIST
     }
   },
   {
