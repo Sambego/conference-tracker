@@ -6,7 +6,7 @@
       <b-row>
         <b-col>
           <b-card no-body>
-            <b-card-header>{{conference.name}}</b-card-header>
+            <b-card-header class>{{conference.name}}</b-card-header>
             <b-card-body>
               <p>
                 This event will be held in {{ conference.city }} from {{ dateFormat(conference.startDate) }}
@@ -28,7 +28,11 @@
         </b-col>
         <b-col>
           <b-card no-body>
-            <b-card-header>Submissions</b-card-header>
+            <b-card-header class="d-sm-flex align-items-center justify-content-between py-2">
+              <span>&nbsp;</span>
+              <span>Submissions</span>
+              <b-btn size="sm" :to="'/conferences/submitted/' + conference._id">Submit</b-btn>
+            </b-card-header>
 
             <table class="table table-striped mb-0">
               <thead>
@@ -50,6 +54,12 @@
                     <span v-if="submission.status === 'NULL'">❓</span>
                   </td>
                   <td>
+                    <b-btn
+                      v-if="submission.status === 'NULL'"
+                      size="sm"
+                      variant="outline-success"
+                      :to="'/conferences/approved/' + conference._id"
+                    >Accepted</b-btn>
                     <b-btn
                       v-if="canDeleteOwnSubMission && submission.user.id === user.id"
                       size="sm"
@@ -116,17 +126,17 @@ export default {
       return expensesCovered(val);
     },
     getConference() {
-      getConference(this.$route.params.conferenceId).then((conference) => {
+      getConference(this.$route.params.conferenceId).then(conference => {
         this.conference = conference;
       });
     },
     getUser() {
-      getLocalUser().then((user) => {
+      getLocalUser().then(user => {
         this.user = user;
       });
     },
     getEventTypes() {
-      getEventTypes().then(types => this.eventTypes = types);
+      getEventTypes().then(types => (this.eventTypes = types));
     },
     openSubmissionDeleteModal(name, id) {
       this.$bvModal
@@ -137,7 +147,7 @@ export default {
             okTitle: "Yes, delete the submission"
           }
         )
-        .then((confirm) => {
+        .then(confirm => {
           if (confirm) {
             deleteSubmission(id).then(() => {
               this.getConference();
