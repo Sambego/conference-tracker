@@ -10,7 +10,7 @@ const handleUpcomgin = async(req, res) => {
       WHERE s.conferenceId = c.id
         AND s.userId = u.id
         AND s.status = "APPROVED"
-        AND c.startDate > ${helpers.now()}
+        AND c.startDate > ${helpers.today()}
         ${
           req.params.week
             ? "AND c.startDate < " + (helpers.now() + 7 * 24 * 60 * 60 * 1000)
@@ -22,31 +22,31 @@ const handleUpcomgin = async(req, res) => {
       WHERE m.userId = u.id AND m.status = "CONFIRMED" AND m.startDate > ${helpers.now()}
       ${
         req.params.week
-          ? "AND m.startDate < " + (helpers.now() + 7 * 24 * 60 * 60 * 1000)
+          ? "AND m.startDate < " + (helpers.today() + 7 * 24 * 60 * 60 * 1000)
           : ""
       }`;
         const conferences = query.make(conferencesSql);
         const meetups = query.make(meetupsSql);
-        const mapUpcomingEvents = events => {
-            return events.map(event => {
+        const mapUpcomingEvents = (events) => {
+            return events.map((event) => {
                 if (event.location) {
                     return event;
                 }
 
                 if (!event.city && !event.country) {
-                  return event;
+                    return event;
                 }
 
                 return {
                     ...event,
                     location: event.state ?
                         `${event.city}, ${event.state}, ${event.country}` :
-                        `${event.city}, ${event.country}`
+                        `${event.city}, ${event.country}`,
                 };
             });
         };
 
-        const sortUpcomintEvents = events => {
+        const sortUpcomintEvents = (events) => {
             return events.sort((a, b) => {
                 if (a.startDate < b.startDate) return -1;
                 return 1;
@@ -65,6 +65,6 @@ const handleUpcomgin = async(req, res) => {
     }
 };
 
-module.exports = app => {
+module.exports = (app) => {
     app.get("/api/upcoming/:week?", handleUpcomgin);
 };
