@@ -203,7 +203,7 @@ import { EXPENSES_COVERED } from "../utils/helpers";
 
 const eventsThatHaveCfp = [1, 7];
 const eventsThatAreLocationBound = [1, 2, 7, 8, 9];
-const eventsThatHaveSubmissions = [1, 2, 3, 4, 5, 7, 9];
+const eventsThatHaveSubmissions = [1, 2, 3, 4, 5, 7, 9, 14];
 
 export default {
   name: "conference-add-modal",
